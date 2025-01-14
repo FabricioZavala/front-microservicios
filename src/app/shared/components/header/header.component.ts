@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
-import SwiperCore from 'swiper';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +10,7 @@ import SwiperCore from 'swiper';
 })
 export class HeaderComponent implements OnInit {
   public elem: any;
+  public isDarkMode: boolean = false; // Estado del modo actual
 
   constructor(
     public layout: LayoutService,
@@ -20,19 +20,40 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.elem = document.documentElement;
+
+    const savedMode = localStorage.getItem('themeMode');
+    if (savedMode === 'dark') {
+      this.enableDarkMode();
+    } else {
+      this.enableLightMode();
+    }
+  }
+
+  layoutToggle() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      this.enableDarkMode();
+    } else {
+      this.enableLightMode();
+    }
+  }
+
+  enableDarkMode() {
+    this.isDarkMode = true;
+    this.document.body.classList.add('dark-only');
+    localStorage.setItem('themeMode', 'dark');
+  }
+
+  enableLightMode() {
+    this.isDarkMode = false;
+    this.document.body.classList.remove('dark-only');
+    localStorage.setItem('themeMode', 'light');
   }
 
   sidebarToggle() {
     this.navServices.collapseSidebar = !this.navServices.collapseSidebar;
     this.navServices.megaMenu = false;
     this.navServices.levelMenu = false;
-  }
-
-  layoutToggle() {
-    if ((this.layout.config.settings.layout_version = 'dark-only')) {
-      document.body.classList.toggle('dark-only');
-    }
-    document.body.remove;
   }
 
   searchToggle() {
@@ -59,7 +80,7 @@ export class HeaderComponent implements OnInit {
         this.elem.msRequestFullscreen();
       }
     } else {
-      if (!this.document.exitFullscreen) {
+      if (this.document.exitFullscreen) {
         this.document.exitFullscreen();
       } else if (this.document.mozCancelFullScreen) {
         /* Firefox */

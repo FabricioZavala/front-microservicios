@@ -46,11 +46,25 @@ export class LanguagesComponent implements OnInit {
     public navServices: NavService,
     private translate: TranslateService
   ) {}
-  //
-  ngOnInit() {}
 
-  changeLanguage(lang: { code: string; }) {
+  ngOnInit() {
+    const savedLanguageCode = localStorage.getItem('selectedLanguage');
+    if (savedLanguageCode) {
+      const savedLanguage = this.languages.find(
+        (lang) => lang.code === savedLanguageCode
+      );
+      if (savedLanguage) {
+        this.selectedLanguage = savedLanguage;
+        this.translate.use(savedLanguage.code);
+      }
+    } else {
+      this.translate.use(this.selectedLanguage.code);
+    }
+  }
+
+  changeLanguage(lang: { code: string }) {
     this.translate.use(lang.code);
     this.selectedLanguage = lang;
+    localStorage.setItem('selectedLanguage', lang.code);
   }
 }
