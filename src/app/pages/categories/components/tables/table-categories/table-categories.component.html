@@ -1,0 +1,35 @@
+<div *ngIf="loading" class="text-center">
+    <p>Loading categories...</p>
+  </div>
+  
+  <div *ngIf="!loading && categories.length > 0">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categories">
+          <td>{{ category._id }}</td>
+          <td>{{ category.name }}</td>
+          <td>{{ category.description || 'N/A' }}</td>
+          <td>{{ category.status }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="deleteCategory(category._id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div *ngIf="!loading && categories.length === 0" class="text-center">
+    <p>No categories found.</p>
+  </div>
+  

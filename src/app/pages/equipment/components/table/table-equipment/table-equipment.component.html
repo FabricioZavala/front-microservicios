@@ -1,0 +1,41 @@
+<div class="container">
+    <h2>Lista de Equipos</h2>
+  
+    <!-- Carga y errores -->
+    <div *ngIf="loading">Cargando equipos...</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  
+    <!-- Tabla de equipos -->
+    <table class="table table-striped" *ngIf="!loading && equipments.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Categoría</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let equipment of equipments">
+          <td>{{ equipment._id }}</td>
+          <td>{{ equipment.name }}</td>
+          <td>{{ equipment.description || 'Sin descripción' }}</td>
+          <td>{{ equipment.status }}</td>
+          <td>{{ equipment.categoryInfo?.name || 'Sin categoría' }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="deleteEquipment(equipment._id)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Mensaje si no hay equipos -->
+    <div *ngIf="!loading && equipments.length === 0" class="alert alert-info">
+      No hay equipos disponibles.
+    </div>
+  </div>
+  
