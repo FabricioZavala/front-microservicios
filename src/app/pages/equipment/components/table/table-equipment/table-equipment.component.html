@@ -49,15 +49,15 @@
                   <div class="d-flex align-items-center">
                     <div class="btn-group mb-2">
                       <button
-                        class="btn btn-sm btn-head me-2"
-                        ngbTooltip="Editar equipo"
+                        class="btn btn-sm mt-2 btn-light"
+                        ngbTooltip="Ver detalles"
                         tooltipClass="custom-tooltip"
-                        (click)="openCreateEditModal(equipment)"
+                        (click)="openViewModal(equipment._id)"
                       >
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-eye"></i>
                       </button>
                       <button
-                        class="btn btn-sm btn-head btn-danger btn-custom-red"
+                        class="btn btn-sm btn-danger mt-2"
                         ngbTooltip="Eliminar equipo"
                         tooltipClass="custom-tooltip"
                         (click)="deleteEquipment(equipment._id)"
@@ -65,24 +65,26 @@
                         <i class="fas fa-trash-alt"></i>
                       </button>
                       <button
-                        class="btn btn-sm btn-head me-2"
-                        ngbTooltip="Ver detalles"
+                        class="btn btn-sm btn-success mt-2"
+                        ngbTooltip="Editar equipo"
                         tooltipClass="custom-tooltip"
-                        (click)="openViewModal(equipment._id)"
+                        (click)="openCreateEditModal(equipment)"
                       >
-                        <i class="fas fa-eye"></i>
+                        <i class="fas fa-edit"></i>
                       </button>
                     </div>
                   </div>
                 </td>
                 <td>{{ equipment._id }}</td>
                 <td>{{ equipment.name }}</td>
-                <td>{{ equipment.description || 'Sin descripción' }}</td>
+                <td>{{ equipment.description || "Sin descripción" }}</td>
                 <td>{{ equipment.status }}</td>
-                <td>{{ equipment.categoryInfo?.name || 'Sin categoría' }}</td>
+                <td>{{ equipment.categoryInfo?.name || "Sin categoría" }}</td>
               </tr>
               <tr *ngIf="!isLoading && equipments.length === 0">
-                <td colspan="6" class="text-center">No hay equipos disponibles.</td>
+                <td colspan="6" class="text-center">
+                  No hay equipos disponibles.
+                </td>
               </tr>
             </tbody>
           </table>

@@ -6,20 +6,18 @@
           <button
             class="btn btn-sm btn-refresh me-3"
             [disabled]="isLoading"
-            ngbTooltip="Recargar tabla"
+            ngbTooltip="Recargar Tabla"
             tooltipClass="custom-tooltip"
             (click)="reloadTable()"
           >
             <i class="fas fa-sync-alt"></i>
           </button>
           <button
-            class="btn btn-sm btn-head me-3"
-            ngbTooltip="Crear categoría"
-            tooltipClass="custom-tooltip"
+            class="btn btn-sm btn-head btn-head-table me-3"
             [disabled]="isLoading"
             (click)="openCreateEditModal()"
           >
-            <i class="fa-solid fa-circle-plus"></i> Crear Categoría
+            <i class="fa-solid fa-circle-plus"></i> Nueva Inscripción
           </button>
         </div>
       </div>
@@ -45,22 +43,22 @@
                 </td>
               </tr>
             </tbody>
-          }
+            }
             <tbody *ngIf="!isLoading && categories.length > 0">
               <tr *ngFor="let category of categories">
                 <td>
                   <div class="d-flex align-items-center">
                     <div class="btn-group mb-2">
                       <button
-                        class="btn btn-sm btn-head btn-mode mt-2"
-                        ngbTooltip="Editar categoría"
+                        class="btn btn-sm mt-2 btn-light"
+                        ngbTooltip="Ver detalles"
                         tooltipClass="custom-tooltip"
-                        (click)="openCreateEditModal(category)"
+                        (click)="openViewModal(category)"
                       >
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-eye"></i>
                       </button>
                       <button
-                        class="btn btn-sm btn-head btn-mode mt-2 btn-danger btn-custom-red"
+                        class="btn btn-sm btn-danger mt-2"
                         ngbTooltip="Eliminar categoría"
                         tooltipClass="custom-tooltip"
                         (click)="deleteCategory(category._id)"
@@ -69,24 +67,26 @@
                       </button>
                       <button
                         class="btn btn-sm btn-head btn-mode mt-2"
-                        ngbTooltip="Ver detalles"
+                        ngbTooltip="Editar categoría"
                         tooltipClass="custom-tooltip"
-                        (click)="openViewModal(category)"
+                        (click)="openCreateEditModal(category)"
                       >
-                        <i class="fas fa-eye"></i>
+                        <i class="fas fa-edit"></i>
                       </button>
                     </div>
                   </div>
                 </td>
                 <td>{{ category._id }}</td>
                 <td>{{ category.name }}</td>
-                <td>{{ category.description || 'Sin descripción' }}</td>
+                <td>{{ category.description || "Sin descripción" }}</td>
                 <td>{{ category.status }}</td>
               </tr>
             </tbody>
             <tbody *ngIf="!isLoading && categories.length === 0">
               <tr>
-                <td colspan="5" class="text-center">No hay categorías disponibles.</td>
+                <td colspan="5" class="text-center">
+                  No hay categorías disponibles.
+                </td>
               </tr>
             </tbody>
           </table>

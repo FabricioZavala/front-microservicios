@@ -40,6 +40,86 @@
   --fc-button-border-color: var(--theme-deafult);
   --fc-button-hover-bg-color: var(--theme-deafult);
   --fc-button-hover-border-color: var(--theme-deafult);
+
+   // BUTTONS
+   --primary-button-color: #54ba4a;
+   --primary-button-text-color: #fff;
+   --secondary-button-color: #5a6268;
+   --refresh-button-color: #f0c429;
+   --cancel-button-color: #ff0000;
+   --btn-light-green-bg: #b2fab4;
+   --btn-light-green-border: #b2fab4;
+   --btn-light-green-color: #fff;
+   --btn-light-green-disabled-bg: #d4f6d8;
+   --btn-light-green-disabled-border: #d4f6d8;
+ 
+   //TEXT
+   --primary-text-color: #000001;
+   --secondary-text-color: #bcc0c6;
+   --general-color: #fff;
+ 
+   //SWITCHES
+   --switch-color: #54ba4a;
+ 
+   //ALERT
+   --alert-icon-color: #f0c429;
+   --alert-box-bg-color: #f7ddad;
+ 
+   //OTHERS
+   --exit-color: #000000;
+   --option-list-shadow: #bcc0c6;
+ 
+   //REPRESENTATIVES COLORS
+   --sorti-representative-icon-color: #426d0f40;
+   --client-representative-icon-color: #c2a8666b;
+ 
+   //INFORMATIVE
+   --informative-icon-color: #8c98a1;
+   --informative-text-color: #8c98a1;
+ 
+   //TABLE
+   --table-icon-color: #8c98a178;
+ 
+   //ACTION
+   --action-icon-color: #426d0f;
+   --inactive-section-color: #78828a;
+   --active-section-color: #54ba4a;
+   --action-info-label-color: #425940;
+ 
+   //TRANSACTIONS
+   --transaction-entry-label-color: #40d933;
+   --transaction-exit-label-color: #ff0000;
+ 
+   //LABEL
+   --user-label-color: #78828a;
+ 
+   //DISABLES
+   --disabled: #596b43;
+   --disabled-button-text-color: #a0a0a0;
+ 
+   // STATES
+   --state-pending-color: #f9c100;
+   --state-bot-request-color: #c0d32a;
+   --state-pre-validated-color: #54ba4a;
+   --state-rejected-color: #ff0000;
+   --state-bot-request-pending-slip-color: #c0d32a;
+   --state-processed-color: #40d933;
+   --state-bot-problem-color: #ff0000;
+   --state-processed-validate-color: #40d933;
+   --state-correction-color: #bab04a;
+   --state-charge-not-entry-color: #4aba90;
+   --state-reversal-color: #db6027;
+   --state-divide-color: #db6027;
+   --state-reject-comment-color: #ff0000;
+   --state-bot-request-reversal-color: #c0d32a;
+   --state-new-color: #4a54b4;
+   --color-pending: #ffc107;
+   --color-processing: #007bff;
+   --color-bonus: #28a745;
+   --color-debt: #dc3545;
+   --color-comision: #6f42c1;
+   --color-charge-double: #343a40;
+   --color-auspicious: #ffc107;
 }
 
 body[class="dark-only"] {
