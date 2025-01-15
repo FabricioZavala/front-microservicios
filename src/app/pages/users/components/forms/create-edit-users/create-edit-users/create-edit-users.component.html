@@ -1,0 +1,128 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ user ? "Editar Usuario" : "Crear Usuario" }}</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="close()"
+  ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <!-- Nombre de usuario -->
+    <div class="mb-3">
+      <label for="username" class="form-label">Nombre de Usuario</label>
+      <input
+        id="username"
+        type="text"
+        class="form-control"
+        formControlName="username"
+        [ngClass]="{ 'is-invalid': isInvalid('username') }"
+      />
+      <div *ngIf="isInvalid('username')" class="invalid-feedback">
+        {{ getError("username") }}
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        id="email"
+        type="email"
+        class="form-control"
+        formControlName="email"
+        [ngClass]="{ 'is-invalid': isInvalid('email') }"
+      />
+      <div *ngIf="isInvalid('email')" class="invalid-feedback">
+        {{ getError("email") }}
+      </div>
+    </div>
+
+    <!-- Nombre Completo -->
+    <div class="mb-3">
+      <label for="fullName" class="form-label">Nombre Completo</label>
+      <input
+        id="fullName"
+        type="text"
+        class="form-control"
+        formControlName="fullName"
+      />
+    </div>
+    <!-- Seleccionar Equipos -->
+    <div class="mb-3">
+        <label for="equipment-list" class="form-label">Seleccionar Equipos</label>
+        <div class="form-control overflow-auto" style="max-height: 200px;">
+          <div
+            class="form-check"
+            *ngFor="let equipment of equipments"
+          >
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="equipment-{{ equipment._id }}"
+              [checked]="isSelected(equipment)"
+              (change)="toggleSelection(equipment)"
+            />
+            <label class="form-check-label" for="equipment-{{ equipment._id }}">
+              {{ equipment.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-3">
+        <h5>Equipos Seleccionados</h5>
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let equipment of selectedEquipments">
+              <td>{{ equipment.name }}</td>
+              <td>{{ equipment.description || 'Sin descripción' }}</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-danger"
+                  (click)="removeSelection(equipment)"
+                >
+                  <i class="fas fa-trash-alt"></i> Quitar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="selectedEquipments.length === 0" class="alert alert-info">
+          No hay equipos seleccionados.
+        </div>
+      </div>
+      
+      
+
+    <!-- Estado -->
+    <div class="mb-3">
+      <label for="status" class="form-label">Estado</label>
+      <select id="status" class="form-control" formControlName="status">
+        <option value="active">Activo</option>
+        <option value="inactive">Inactivo</option>
+      </select>
+    </div>
+
+    <div class="text-end">
+      <button type="button" class="btn btn-secondary me-2" (click)="close()">
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="userForm.invalid"
+      >
+        {{ user ? "Guardar Cambios" : "Crear Usuario" }}
+      </button>
+    </div>
+  </form>
+</div>

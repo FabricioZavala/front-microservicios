@@ -1,41 +1,100 @@
-<div class="container">
-    <h2>Lista de Equipos</h2>
-  
-    <!-- Carga y errores -->
-    <div *ngIf="loading">Cargando equipos...</div>
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-  
-    <!-- Tabla de equipos -->
-    <table class="table table-striped" *ngIf="!loading && equipments.length > 0">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Estado</th>
-          <th>Categoría</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let equipment of equipments">
-          <td>{{ equipment._id }}</td>
-          <td>{{ equipment.name }}</td>
-          <td>{{ equipment.description || 'Sin descripción' }}</td>
-          <td>{{ equipment.status }}</td>
-          <td>{{ equipment.categoryInfo?.name || 'Sin categoría' }}</td>
-          <td>
-            <button class="btn btn-danger btn-sm" (click)="deleteEquipment(equipment._id)">
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <!-- Mensaje si no hay equipos -->
-    <div *ngIf="!loading && equipments.length === 0" class="alert alert-info">
-      No hay equipos disponibles.
+<div class="container-fluid basic_table">
+  <div class="row">
+    <div class="card">
+      <div class="card-header">
+        <div class="text-end">
+          <button
+            class="btn btn-sm btn-refresh me-3"
+            [disabled]="isLoading"
+            ngbTooltip="Recargar tabla"
+            tooltipClass="custom-tooltip"
+            (click)="reloadTable()"
+          >
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <button
+            class="btn btn-sm btn-head me-3"
+            ngbTooltip="Crear equipo"
+            tooltipClass="custom-tooltip"
+            [disabled]="isLoading"
+            (click)="openCreateEditModal()"
+          >
+            <i class="fa-solid fa-circle-plus"></i> Crear equipo
+          </button>
+        </div>
+      </div>
+      <div class="card-body custom-datatable noscroll">
+        <div class="table-responsive signal-table custom-datatable">
+          <table class="table table-hover table-responsive">
+            <thead>
+              <tr>
+                <th>Acciones</th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Categoría</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="isLoading">
+                <td colspan="6">
+                  <div class="loader-box">
+                    <div class="loader-16"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngFor="let equipment of equipments">
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="btn-group mb-2">
+                      <button
+                        class="btn btn-sm btn-head me-2"
+                        ngbTooltip="Editar equipo"
+                        tooltipClass="custom-tooltip"
+                        (click)="openCreateEditModal(equipment)"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button
+                        class="btn btn-sm btn-head btn-danger btn-custom-red"
+                        ngbTooltip="Eliminar equipo"
+                        tooltipClass="custom-tooltip"
+                        (click)="deleteEquipment(equipment._id)"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                      <button
+                        class="btn btn-sm btn-head me-2"
+                        ngbTooltip="Ver detalles"
+                        tooltipClass="custom-tooltip"
+                        (click)="openViewModal(equipment._id)"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ equipment._id }}</td>
+                <td>{{ equipment.name }}</td>
+                <td>{{ equipment.description || 'Sin descripción' }}</td>
+                <td>{{ equipment.status }}</td>
+                <td>{{ equipment.categoryInfo?.name || 'Sin categoría' }}</td>
+              </tr>
+              <tr *ngIf="!isLoading && equipments.length === 0">
+                <td colspan="6" class="text-center">No hay equipos disponibles.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <!-- <shared-custom-pagination
+          [collectionSize]="collectionSize"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onLimitChange($event)"
+        ></shared-custom-pagination> -->
+      </div>
     </div>
   </div>
-  
+</div>

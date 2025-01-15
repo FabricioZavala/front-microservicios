@@ -1,41 +1,110 @@
-<div class="container">
-    <h2>Lista de Usuarios</h2>
-  
-    <!-- Carga y errores -->
-    <div *ngIf="loading">Cargando usuarios...</div>
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-  
-    <!-- Tabla de usuarios -->
-    <table class="table table-striped" *ngIf="!loading && users.length > 0">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Usuario</th>
-          <th>Email</th>
-          <th>Nombre Completo</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{ user._id }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.fullName || 'Sin nombre' }}</td>
-          <td>{{ user.status }}</td>
-          <td>
-            <button class="btn btn-danger btn-sm" (click)="deleteUser(user._id)">
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <!-- Mensaje si no hay usuarios -->
-    <div *ngIf="!loading && users.length === 0" class="alert alert-info">
-      No hay usuarios disponibles.
+<div class="container-fluid basic_table">
+  <div class="row">
+    <div class="card">
+      <div class="card-header">
+        <div class="text-end">
+          <!-- Botón para recargar la tabla -->
+          <button
+            class="btn btn-sm btn-refresh me-3"
+            [disabled]="loading"
+            ngbTooltip="Recargar tabla"
+            tooltipClass="custom-tooltip"
+            (click)="reloadTable()"
+          >
+            <i class="fas fa-sync-alt"></i>
+          </button>
+
+          <!-- Botón para abrir el modal de crear usuario -->
+          <button
+            class="btn btn-sm btn-head me-3"
+            ngbTooltip="Crear Usuario"
+            tooltipClass="custom-tooltip"
+            [disabled]="loading"
+            (click)="openCreateEditModal()"
+          >
+            <i class="fa-solid fa-circle-plus"></i> Crear Usuario
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body custom-datatable noscroll">
+        <div class="table-responsive signal-table custom-datatable">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Acciones</th>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Nombre Completo</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <!-- Loader -->
+              <tr *ngIf="loading">
+                <td colspan="6" class="text-center">
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">Cargando...</span>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Fila de usuarios -->
+              <tr *ngFor="let user of users">
+                <td>
+                  <div class="btn-group mb-2">
+                    <!-- Ver usuario -->
+                    <button
+                      class="btn btn-sm btn-primary"
+                      ngbTooltip="Ver Usuario"
+                      tooltipClass="custom-tooltip"
+                      (click)="openViewModal(user)"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+
+                    <!-- Editar usuario -->
+                    <button
+                      class="btn btn-sm btn-warning"
+                      ngbTooltip="Editar Usuario"
+                      tooltipClass="custom-tooltip"
+                      (click)="openCreateEditModal(user)"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </button>
+
+                    <!-- Eliminar usuario -->
+                    <button
+                      class="btn btn-sm btn-danger"
+                      ngbTooltip="Eliminar Usuario"
+                      tooltipClass="custom-tooltip"
+                      (click)="deleteUser(user._id)"
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+                <td>{{ user._id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.fullName || 'Sin nombre' }}</td>
+                <td>{{ user.status }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <!-- Paginación -->
+        <!-- <shared-custom-pagination
+          [collectionSize]="collectionSize"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onLimitChange($event)"
+        ></shared-custom-pagination> -->
+      </div>
     </div>
   </div>
-  
+</div>
