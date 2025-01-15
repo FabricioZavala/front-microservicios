@@ -11,25 +11,25 @@
   <div class="modal-body">
     <!-- Información general -->
     <h6 class="text-primary">Información General</h6>
-    <table class="table table-striped">
+    <table class="table table-striped" *ngIf="equipment">
       <tbody>
         <tr>
           <th>ID</th>
-          <td>{{ equipment._id }}</td>
+          <td>{{ equipment?._id }}</td>
         </tr>
         <tr>
           <th>Nombre</th>
-          <td>{{ equipment.name }}</td>
+          <td>{{ equipment?.name }}</td>
         </tr>
         <tr>
           <th>Descripción</th>
-          <td>{{ equipment.description || 'Sin descripción' }}</td>
+          <td>{{ equipment?.description || 'Sin descripción' }}</td>
         </tr>
         <tr>
           <th>Estado</th>
           <td>
-            <span [ngClass]="getStatusClass(equipment.status)">
-              {{ equipment.status }}
+            <span [ngClass]="getStatusClass(equipment?.status)">
+              {{ equipment?.status }}
             </span>
           </td>
         </tr>
@@ -38,10 +38,7 @@
   
     <!-- Información de la categoría -->
     <h6 class="text-primary mt-4">Información de la Categoría</h6>
-    <table
-      class="table table-hover"
-      *ngIf="equipment.categoryInfo"
-    >
+    <table class="table table-hover" *ngIf="equipment?.categoryInfo">
       <thead class="table-light">
         <tr>
           <th>Nombre</th>
@@ -50,15 +47,12 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ equipment.categoryInfo.name }}</td>
-          <td>{{ equipment.categoryInfo.description || 'Sin descripción' }}</td>
+          <td>{{ equipment?.categoryInfo?.name }}</td>
+          <td>{{ equipment?.categoryInfo?.description || 'Sin descripción' }}</td>
         </tr>
       </tbody>
     </table>
-    <div
-      *ngIf="!equipment.categoryInfo"
-      class="alert alert-info"
-    >
+    <div *ngIf="!equipment?.categoryInfo" class="alert alert-info">
       Este equipo no está asignado a ninguna categoría.
     </div>
   </div>
