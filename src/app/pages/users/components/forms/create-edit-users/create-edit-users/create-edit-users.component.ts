@@ -1,12 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
 import Swal from 'sweetalert2';
-import { User } from '../../../../../../core/interfaces/user.interface';
-import { UserService } from '../../../../../../core/services/user-gateway.service';
 import { Equipment } from '../../../../../../core/interfaces/equipment.interface';
 import { EquipmentService } from '../../../../../../core/services/equipment.service';
+import { AuthGatewayService } from '../../../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-create-edit-users',
@@ -14,93 +12,88 @@ import { EquipmentService } from '../../../../../../core/services/equipment.serv
   styleUrls: ['./create-edit-users.component.scss'],
 })
 export class CreateEditUsersComponent implements OnInit {
-  @Input() user?: User; // Usuario a editar (si existe)
+  @Input() user?: any; // Usuario a editar (si existe)
 
   userForm: FormGroup;
   equipments: Equipment[] = [];
   selectedEquipments: Equipment[] = [];
-
+  rolesList = [
+    { name: 'Usuario', value: 'user' },
+    { name: 'Administrador', value: 'admin' },
+  ];
+  
   constructor(
     private fb: FormBuilder,
     public activeModal: NgbActiveModal,
-    private userService: UserService,
-    private equipmentService: EquipmentService
+    private authService: AuthGatewayService,
+    private equipmentService: EquipmentService,
   ) {
     this.userForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.minLength(6)]], // Contraseña obligatoria solo al crear
+      roles: [this.user?.roles || [], Validators.required],
       fullName: [''],
-      status: ['active', Validators.required],
+      status: [true, Validators.required], // Boolean para el estado
       equipmentIds: [[]],
     });
   }
 
   ngOnInit(): void {
     if (this.user) {
-      this.userForm.patchValue(this.user);
+      this.userForm.patchValue({
+        ...this.user,
+        status: this.user.status === 'active',
+      });
     }
     this.loadEquipments();
   }
-  
+
   private loadEquipments(): void {
     this.equipmentService.getAll().subscribe({
       next: (data) => {
         this.equipments = data;
-  
-        // Marcar equipos seleccionados si el usuario ya tiene equipos
         if (this.user?.equipmentIds) {
           this.selectedEquipments = this.equipments.filter((equipment) =>
-            this.user?.equipmentIds?.includes(equipment._id),
+            this.user?.equipmentIds.includes(equipment._id),
           );
-  
-          // Actualizar el formulario reactivo
           this.userForm.patchValue({
             equipmentIds: this.selectedEquipments.map((e) => e._id),
           });
         }
       },
-      error: (err) => {
-        console.error('Error al cargar los equipos:', err);
-      },
+      error: (err) => console.error('Error al cargar los equipos:', err),
     });
   }
-  
 
   isSelected(equipment: Equipment): boolean {
     return this.selectedEquipments.some((e) => e._id === equipment._id);
   }
-  
+
   toggleSelection(equipment: Equipment): void {
     const index = this.selectedEquipments.findIndex((e) => e._id === equipment._id);
-  
     if (index === -1) {
-      this.selectedEquipments.push(equipment); // Agregar a seleccionados
+      this.selectedEquipments.push(equipment);
     } else {
-      this.selectedEquipments.splice(index, 1); // Quitar de seleccionados
+      this.selectedEquipments.splice(index, 1);
     }
-  
-    // Actualizar el formulario reactivo
     this.userForm.patchValue({
       equipmentIds: this.selectedEquipments.map((e) => e._id),
     });
   }
+
   removeSelection(equipment: Equipment): void {
     this.selectedEquipments = this.selectedEquipments.filter((e) => e._id !== equipment._id);
-  
-    // Actualizar el formulario reactivo
     this.userForm.patchValue({
       equipmentIds: this.selectedEquipments.map((e) => e._id),
     });
   }
-  
-  
-  // Verificar si un campo es inválido
+
   isInvalid(controlName: string): boolean {
     const control = this.userForm.get(controlName);
     return !!control?.invalid && (control.dirty || control.touched);
   }
 
-  // Obtener mensaje de error de un campo
   getError(controlName: string): string {
     const control = this.userForm.get(controlName);
     if (control?.hasError('required')) {
@@ -115,38 +108,31 @@ export class CreateEditUsersComponent implements OnInit {
     return '';
   }
 
-  // Cerrar modal
   close(): void {
     this.activeModal.dismiss();
   }
 
-  // Guardar cambios
   onSubmit(): void {
     if (this.userForm.invalid) return;
 
     const userData = this.userForm.value;
+    userData.status = userData.status ? 'active' : 'inactive';
 
     if (this.user) {
-      // Editar usuario
-      this.userService.update(this.user._id, userData).subscribe({
+      this.authService.update(this.user._id, userData).subscribe({
         next: () => {
           Swal.fire('Éxito', 'Usuario actualizado correctamente.', 'success');
           this.activeModal.close();
         },
-        error: () => {
-          Swal.fire('Error', 'No se pudo actualizar el usuario.', 'error');
-        },
+        error: () => Swal.fire('Error', 'No se pudo actualizar el usuario.', 'error'),
       });
     } else {
-      // Crear nuevo usuario
-      this.userService.create(userData).subscribe({
+      this.authService.register(userData).subscribe({
         next: () => {
           Swal.fire('Éxito', 'Usuario creado correctamente.', 'success');
           this.activeModal.close();
         },
-        error: () => {
-          Swal.fire('Error', 'No se pudo crear el usuario.', 'error');
-        },
+        error: () => Swal.fire('Error', 'No se pudo crear el usuario.', 'error'),
       });
     }
   }

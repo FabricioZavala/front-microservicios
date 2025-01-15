@@ -8,5 +8,6 @@ export interface User {
     status: string; // 'active', 'inactive', etc.
     equipmentIds?: string[];
     equipments?: Equipment[];
+    roles?: string[];
   }
   
