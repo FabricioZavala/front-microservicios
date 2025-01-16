@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card-header">
+      <h5>Categorías por Semana</h5>
+      <span>Total: {{ categoriesCount }}</span>
+    </div>
+    <div class="card-body">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis"
+        [dataLabels]="chartOptions.dataLabels">
+      </apx-chart>
+    </div>
+  </div>
+  

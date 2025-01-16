@@ -92,7 +92,7 @@ export class NavService implements OnDestroy {
       badgeType: 'light-primary',
       active: true,
       path: '/dashboard/default',
-      roles: ['admin', 'user'],
+      // roles: ['admin', 'user'],
     },
     {
       headTitle1: 'Applications',

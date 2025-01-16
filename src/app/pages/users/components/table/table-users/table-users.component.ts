@@ -90,10 +90,8 @@ export class TableUsersComponent implements OnInit {
 
   // Controlar paginación
   onPageChange(page: number): void {
-    console.log('Cambio de página:', page); // Implementar lógica de carga de datos
   }
 
   onLimitChange(limit: number): void {
-    console.log('Cambio de límite:', limit); // Implementar lógica de carga de datos
   }
 }
