@@ -26,13 +26,17 @@ export class TableUsersComponent implements OnInit {
     this.loadUsers();
   }
 
-  // Cargar usuarios
   loadUsers(): void {
     this.loading = true;
     this.userService.getAll().subscribe({
       next: (data) => {
-        this.users = data;
-        this.collectionSize = data.length; // Tamaño total para paginación
+        this.users = data.map(user => ({
+          ...user,
+          equipmentNames: user.equipments?.length 
+            ? user.equipments.map(equipment => equipment.name).join(', ') 
+            : 'Sin equipos'
+        }));
+        this.collectionSize = data.length;
         this.loading = false;
       },
       error: () => {
@@ -41,6 +45,7 @@ export class TableUsersComponent implements OnInit {
       },
     });
   }
+  
 
   // Recargar tabla
   reloadTable(): void {

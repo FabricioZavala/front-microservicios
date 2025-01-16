@@ -67,15 +67,13 @@ export class TableEquipmentComponent implements OnInit {
   }
   
 
-  // Abrir modal de visualización
-  openViewModal(equipmentId: string): void {
+  openViewModal(equipment: Equipment): void {
     const modalRef = this.modalService.open(ViewEquipmentComponent, {
       size: 'lg',
     });
-    modalRef.componentInstance.equipmentId = equipmentId;
+    modalRef.componentInstance.equipment = equipment;
   }
 
-  // Eliminar equipo
   deleteEquipment(equipmentId: string): void {
     Swal.fire({
       title: '¿Estás seguro?',

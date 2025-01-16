@@ -1,35 +1,47 @@
 <div class="modal-header">
-    <h5 class="modal-title">Detalles de la Categoría</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
-  </div>
-  <div class="modal-body">
-    <div *ngIf="category; else loading">
-      <div class="mb-3">
-        <strong>Nombre:</strong> {{ category.name }}
-      </div>
-      <div class="mb-3">
-        <strong>Descripción:</strong> {{ category.description || 'No especificada' }}
-      </div>
-      <div class="mb-3">
-        <strong>Estado:</strong> 
-        <span [ngClass]="category.status === 'active' ? 'text-success' : 'text-danger'">
-          {{ category.status === 'active' ? 'Activo' : 'Inactivo' }}
-        </span>
-      </div>
-      <div class="mb-3">
-        <strong>ID:</strong> {{ category._id }}
-      </div>
+  <h5 class="modal-title">Detalles de la Categoría</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+<div class="modal-body">
+  <div *ngIf="category; else loading">
+    <div class="mb-3"><strong>Nombre:</strong> {{ category.name }}</div>
+    <div class="mb-3">
+      <strong>Descripción:</strong>
+      {{ category.description || "No especificada" }}
     </div>
-    <ng-template #loading>
-      <div class="text-center">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Cargando...</span>
-        </div>
-        <p class="mt-2">Cargando datos de la categoría...</p>
+    <div class="mb-3">
+      <strong>Creado:</strong>
+      {{ category.createdAt | date : "yyyy-MM-dd   HH:mm" }}
+    </div>
+
+    <div class="mb-3">
+      <strong>Estado:</strong>
+      <span
+        [ngClass]="
+          category.status === 'active' ? 'text-success' : 'text-danger'
+        "
+      >
+        {{ category.status === "active" ? "Activo" : "Inactivo" }}
+      </span>
+    </div>
+    <div class="mb-3"><strong>ID:</strong> {{ category._id }}</div>
+  </div>
+  <ng-template #loading>
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
       </div>
-    </ng-template>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
-  </div>
-  
+      <p class="mt-2">Cargando datos de la categoría...</p>
+    </div>
+  </ng-template>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">
+    Cerrar
+  </button>
+</div>

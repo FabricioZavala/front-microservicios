@@ -1,64 +1,49 @@
 <div class="modal-header">
-    <h5 class="modal-title">Detalles del Usuario</h5>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="closeModal()"
-    ></button>
+  <h5 class="modal-title">Detalles del Usuario</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+<div class="modal-body">
+  <h6 class="text-primary">Información General</h6>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <th>ID</th>
+        <td>{{ user._id }}</td>
+      </tr>
+      <tr>
+        <th>Usuario</th>
+        <td>{{ user.username }}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{{ user.email }}</td>
+      </tr>
+      <tr>
+        <th>Nombre Completo</th>
+        <td>{{ user.fullName || 'No disponible' }}</td>
+      </tr>
+      <tr>
+        <th>Estado</th>
+        <td>{{ user.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h6 class="text-primary mt-4">Equipos Asignados</h6>
+  <div *ngIf="user.equipments && user.equipments.length > 0">
+    <ul>
+      <li *ngFor="let equipment of user.equipments">{{ equipment.name }}</li>
+    </ul>
   </div>
-  <div class="modal-body">
-    <h6 class="text-primary">Información General</h6>
-    <table class="table table-striped">
-      <tbody>
-        <tr>
-          <th>ID</th>
-          <td>{{ user._id }}</td>
-        </tr>
-        <tr>
-          <th>Usuario</th>
-          <td>{{ user.username }}</td>
-        </tr>
-        <tr>
-          <th>Email</th>
-          <td>{{ user.email }}</td>
-        </tr>
-        <tr>
-          <th>Nombre Completo</th>
-          <td>{{ user.fullName || 'No disponible' }}</td>
-        </tr>
-        <tr>
-          <th>Estado</th>
-          <td>{{ user.status }}</td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <h6 class="text-primary mt-4">Equipos Asignados</h6>
-    <table class="table table-hover" *ngIf="user.equipments && user.equipments.length > 0">
-        <thead class="table-light">
-          <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Categoría</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let equipment of user.equipments">
-            <td>{{ equipment.name }}</td>
-            <td>{{ equipment.description || 'Sin descripción' }}</td>
-            <td>{{ equipment.categoryInfo?.name || 'Sin categoría' }}</td>
-            <td>{{ equipment.status }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div *ngIf="!user.equipments || user.equipments.length === 0" class="alert alert-info">
-        No hay equipos asignados a este usuario.
-      </div>
-      
+  <div *ngIf="!user.equipments || user.equipments.length === 0" class="alert alert-info">
+    No hay equipos asignados a este usuario.
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
-  </div>
-  
+</div>
+<div class="modal-footer">
+  <button class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+</div>

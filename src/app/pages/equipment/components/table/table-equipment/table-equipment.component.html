@@ -29,7 +29,6 @@
             <thead>
               <tr>
                 <th>Acciones</th>
-                <th>ID</th>
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Estado</th>
@@ -38,7 +37,7 @@
             </thead>
             <tbody>
               <tr *ngIf="isLoading">
-                <td colspan="6">
+                <td colspan="5">
                   <div class="loader-box">
                     <div class="loader-16"></div>
                   </div>
@@ -52,10 +51,11 @@
                         class="btn btn-sm mt-2 btn-light"
                         ngbTooltip="Ver detalles"
                         tooltipClass="custom-tooltip"
-                        (click)="openViewModal(equipment._id)"
+                        (click)="openViewModal(equipment)"
                       >
                         <i class="fas fa-eye"></i>
                       </button>
+
                       <button
                         class="btn btn-sm btn-danger mt-2"
                         ngbTooltip="Eliminar equipo"
@@ -75,27 +75,19 @@
                     </div>
                   </div>
                 </td>
-                <td>{{ equipment._id }}</td>
                 <td>{{ equipment.name }}</td>
                 <td>{{ equipment.description || "Sin descripción" }}</td>
                 <td>{{ equipment.status }}</td>
                 <td>{{ equipment.categoryInfo?.name || "Sin categoría" }}</td>
               </tr>
               <tr *ngIf="!isLoading && equipments.length === 0">
-                <td colspan="6" class="text-center">
+                <td colspan="5" class="text-center">
                   No hay equipos disponibles.
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
-      <div class="card-footer">
-        <!-- <shared-custom-pagination
-          [collectionSize]="collectionSize"
-          (pageChange)="onPageChange($event)"
-          (pageSizeChange)="onLimitChange($event)"
-        ></shared-custom-pagination> -->
       </div>
     </div>
   </div>
