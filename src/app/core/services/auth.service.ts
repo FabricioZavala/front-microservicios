@@ -1,6 +1,6 @@
 // auth-gateway.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -27,13 +27,34 @@ export class AuthGatewayService {
     return this.http.get(`${this.baseUrl}/users`);
   }
 
+  getCurrentUserId(): string | null {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      return null;
+    }
+    const payload = JSON.parse(atob(accessToken.split('.')[1]));
+    return payload.sub || null;
+  }
+
   getCurrentUserRoles(): string[] {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
       return [];
     }
-
     const payload = JSON.parse(atob(accessToken.split('.')[1]));
     return payload.roles || [];
+  }
+
+  getLoggedInUser(): Observable<any> {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      throw new Error('Token no encontrado en localStorage.');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.get(`${this.baseUrl}/me`, { headers });
   }
 }
