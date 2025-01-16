@@ -16,6 +16,7 @@ export interface Menu {
   active?: boolean;
   bookmark?: boolean;
   children?: Menu[];
+  roles?: string[];
 }
 
 @Injectable({
@@ -73,7 +74,6 @@ export class NavService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.unsubscriber.next();
     this.unsubscriber.complete();
   }
 
@@ -92,6 +92,7 @@ export class NavService implements OnDestroy {
       badgeType: 'light-primary',
       active: true,
       path: '/dashboard/default',
+      roles: ['admin', 'user'],
     },
     {
       headTitle1: 'Applications',
@@ -104,6 +105,7 @@ export class NavService implements OnDestroy {
       type: 'link',
       badgeType: 'light-secondary',
       active: false,
+      roles: ['admin', ],
     },
     {
       title: 'Equipment',
@@ -112,6 +114,7 @@ export class NavService implements OnDestroy {
       type: 'link',
       badgeType: 'light-secondary',
       active: false,
+      roles: ['user','admin' ],
     },
     {
       title: 'Users',
@@ -120,10 +123,23 @@ export class NavService implements OnDestroy {
       type: 'link',
       badgeType: 'light-secondary',
       active: false,
+      roles: ['admin','user'],
     },
-    
   ];
 
-  // Array
   items = new BehaviorSubject<Menu[]>(this.MENUITEMS);
+
+  filterMenuItemsByRoles(roles: string[]): Menu[] {
+    return this.MENUITEMS.filter((item) => {
+      if (item.roles) {
+        return item.roles.some((role) => roles.includes(role));
+      }
+      return true;
+    });
+  }
+  
+  updateMenuItemsByRoles(roles: string[]): void {
+    const filteredMenu = this.filterMenuItemsByRoles(roles);
+    this.items.next(filteredMenu);
+  }
 }

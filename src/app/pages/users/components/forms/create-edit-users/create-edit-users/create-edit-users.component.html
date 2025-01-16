@@ -9,7 +9,6 @@
 </div>
 <div class="modal-body">
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <!-- Nombre de usuario -->
     <div class="mb-3">
       <label for="username" class="form-label">Nombre de Usuario</label>
       <input
@@ -24,7 +23,6 @@
       </div>
     </div>
 
-    <!-- Email -->
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
       <input
@@ -39,7 +37,6 @@
       </div>
     </div>
 
-    <!-- Contraseña -->
     <div class="mb-3" *ngIf="!user">
       <label for="password" class="form-label">Contraseña</label>
       <input
@@ -54,12 +51,10 @@
       </div>
     </div>
 
-    <!-- Roles -->
     <div class="mb-3">
       <label for="roles" class="form-label">Roles</label>
       <ng-select
         [items]="rolesList"
-        [multiple]="true"
         bindLabel="name"
         bindValue="value"
         placeholder="Seleccione roles"
@@ -72,7 +67,6 @@
       </div>
     </div>
 
-    <!-- Nombre Completo -->
     <div class="mb-3">
       <label for="fullName" class="form-label">Nombre Completo</label>
       <input
@@ -83,7 +77,6 @@
       />
     </div>
 
-    <!-- Seleccionar Equipos -->
     <div class="mb-3">
       <label for="equipment-list" class="form-label">Seleccionar Equipos</label>
       <div class="form-control overflow-auto" style="max-height: 200px;">
@@ -135,7 +128,6 @@
       </div>
     </div>
 
-    <!-- Estado -->
     <div class="mb-3">
       <label for="status" class="form-label">Estado</label>
       <select id="status" class="form-control" formControlName="status">

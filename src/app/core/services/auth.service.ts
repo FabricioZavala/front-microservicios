@@ -22,4 +22,18 @@ export class AuthGatewayService {
   update(userId: string, data: any): Observable<any> {
     return this.http.patch(`${this.baseUrl}/update/${userId}`, data);
   }
+
+  getAllUsers(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/users`);
+  }
+
+  getCurrentUserRoles(): string[] {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      return [];
+    }
+
+    const payload = JSON.parse(atob(accessToken.split('.')[1]));
+    return payload.roles || [];
+  }
 }
