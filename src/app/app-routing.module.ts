@@ -9,8 +9,8 @@ import { full } from './shared/routes/full.routes';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard/default',
-    pathMatch: 'full',
+    redirectTo: 'auth/login',
+    pathMatch: 'full', // Cambiado para redirigir al login si no hay autenticación
   },
   {
     path: 'auth/login',
@@ -26,13 +26,19 @@ const routes: Routes = [
     component: FullComponent,
     children: full,
   },
+  {
+    path: '**', // Manejo de rutas no existentes
+    redirectTo: 'auth/login',
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    anchorScrolling: 'enabled',
-    scrollPositionRestoration: 'enabled',
-  })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled',
+      scrollPositionRestoration: 'enabled',
+    }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
