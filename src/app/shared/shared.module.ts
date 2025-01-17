@@ -19,6 +19,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { LanguagesComponent } from './components/header/elements/languages/languages.component';
 import { MyAccountComponent } from './components/header/elements/my-account/my-account.component';
 import { NotificationComponent } from './components/header/elements/notification/notification.component';
+import { CustomPaginationComponent } from './components/paginations/custom-pagination/custom-pagination.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,8 @@ import { NotificationComponent } from './components/header/elements/notification
     LanguagesComponent,
     MyAccountComponent,
     NotificationComponent,
+    CustomPaginationComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -52,6 +55,7 @@ import { NotificationComponent } from './components/header/elements/notification
     TranslateModule,
     TapToTopComponent,
     BreadcrumbComponent,
+    CustomPaginationComponent
   ],
 })
 export class SharedModule {}

@@ -16,7 +16,7 @@
           <button class="btn btn-sm btn-head me-3" (click)="downloadAsExcel()">
             <i class="far fa-file-excel"></i>
           </button>
-          
+
           <button class="btn btn-sm btn-danger me-3" (click)="downloadAsPDF()">
             <i class="fa-solid fa-file-pdf"></i>
           </button>
@@ -60,7 +60,7 @@
                         tooltipClass="custom-tooltip"
                         (click)="deleteCategory(category._id)"
                       >
-                        <i class="fas fa-trash-alt"></i>
+                        <i class="fas fa-trash"></i>
                       </button>
                       <button
                         class="btn btn-sm btn-head btn-mode mt-2"
@@ -83,6 +83,13 @@
             </tbody>
           </table>
         </div>
+      </div>
+      <div class="card-footer">
+        <shared-custom-pagination
+          [collectionSize]="collectionSize"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onLimitChange($event)"
+        ></shared-custom-pagination>
       </div>
     </div>
   </div>

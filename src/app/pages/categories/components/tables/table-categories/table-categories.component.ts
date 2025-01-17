@@ -8,6 +8,7 @@ import { ViewCategoriesComponent } from '../../forms/view-categories/view-catego
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { FilterCommunicationService } from '../../../../../core/services/filter-communication.service';
 
 @Component({
   selector: 'app-table-categories',
@@ -17,25 +18,54 @@ import 'jspdf-autotable';
 export class TableCategoriesComponent implements OnInit {
   categories: Category[] = [];
   isLoading: boolean = false;
+  page: number = 1;
+  limit: number = 10;
+  collectionSize: number = 0;
+  filters: { name?: string; description?: string; status?: string } = {};
 
   constructor(
     private categoryService: CategoryGatewayService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private filterService: FilterCommunicationService
   ) {}
 
   ngOnInit(): void {
     this.loadCategories();
+    this.subscribeToFilters();
+  }
+
+  subscribeToFilters(): void {
+    this.filterService.currentFilter.subscribe((filters) => {
+      if (filters) {
+        console.log('Filtros recibidos desde el servicio:', filters);
+        this.filters = filters;
+        this.page = 1;
+        this.loadCategories();
+      }
+    });
   }
 
   loadCategories(): void {
     this.isLoading = true;
-    this.categoryService.getCategories().subscribe({
-      next: (data) => {
-        this.categories = data;
+
+    const params = {
+      page: this.page,
+      limit: this.limit,
+      ...this.filters, // Filtros dinámicos
+    };
+
+    console.log('Parámetros enviados al servicio:', params);
+
+    this.categoryService.getCategories(params).subscribe({
+      next: (data: any) => {
+        console.log('Datos recibidos del servicio:', data);
+        this.categories = data.data;
+        this.collectionSize = data.totalCount;
         this.isLoading = false;
       },
-      error: () => {
-        Swal.fire('Error', 'No se pudieron cargar las categorías.', 'error');
+      error: (err) => {
+        console.error('Error al cargar categorías:', err);
+        Swal.fire('Error', 'Error al cargar las categorías.', 'error');
         this.isLoading = false;
       },
     });
@@ -109,7 +139,7 @@ export class TableCategoriesComponent implements OnInit {
 
   downloadAsPDF(): void {
     const doc = new jsPDF();
-  
+
     // Título del PDF
     const title = 'Reporte de Categorías';
     const date = new Date().toLocaleDateString('es-ES', {
@@ -122,7 +152,7 @@ export class TableCategoriesComponent implements OnInit {
     doc.setFontSize(11);
     doc.setTextColor(100);
     doc.text(`Fecha de generación: ${date}`, 14, 22);
-  
+
     // Datos de la tabla
     const tableColumn = ['Nombre', 'Descripción', 'Estado', 'Fecha de Creación'];
     const tableRows = this.categories.map((cat) => [
@@ -135,34 +165,32 @@ export class TableCategoriesComponent implements OnInit {
         day: 'numeric',
       }),
     ]);
-  
-    // Configuración de la tabla
+
     (doc as any).autoTable({
       head: [tableColumn],
       body: tableRows,
-      startY: 30, // Espaciado inicial
+      startY: 30,
       styles: {
         fontSize: 10,
-        halign: 'center', // Alinear el contenido al centro
-        lineColor: [200, 200, 200], // Bordes suaves
+        halign: 'center',
+        lineColor: [200, 200, 200],
         lineWidth: 0.1,
       },
       headStyles: {
-        fillColor: [50, 50, 50], // Color de fondo de la cabecera
-        textColor: [255, 255, 255], // Color del texto en la cabecera
+        fillColor: [50, 50, 50],
+        textColor: [255, 255, 255],
         fontStyle: 'bold',
       },
       alternateRowStyles: {
-        fillColor: [240, 240, 240], // Color alternativo para las filas
+        fillColor: [240, 240, 240],
       },
       bodyStyles: {
-        textColor: [50, 50, 50], // Color del texto de las filas
+        textColor: [50, 50, 50],
       },
       margin: { top: 20 },
     });
-  
-    // Pie de página
-    const pageCount = doc.internal.pages.length - 1; // Calcular número de páginas
+
+    const pageCount = doc.internal.pages.length - 1;
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);
       doc.setFontSize(10);
@@ -173,10 +201,25 @@ export class TableCategoriesComponent implements OnInit {
         { align: 'center' }
       );
     }
-  
-    // Guardar el archivo PDF
+
     doc.save('Reporte_Categorias.pdf');
   }
-  
-  
+
+  onPageChange(page: number): void {
+    this.page = page;
+    this.loadCategories();
+  }
+
+  onLimitChange(limit: number): void {
+    this.limit = limit;
+    this.page = 1;
+    this.loadCategories();
+  }
+
+  // applyFilters(): void {
+  //   this.page = 1;
+  //   if (Object.values(this.filters).some((val) => val)) {
+  //     this.loadCategories();
+  //   }
+  // }
 }

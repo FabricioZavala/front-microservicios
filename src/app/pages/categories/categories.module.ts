@@ -6,6 +6,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { TableCategoriesComponent } from './components/tables/table-categories/table-categories.component';
 import { CreateEditCategoriesComponent } from './components/forms/create-edit-categories/create-edit-categories/create-edit-categories.component';
 import { ViewCategoriesComponent } from './components/forms/view-categories/view-categories/view-categories.component';
+import { FilterCategoriesComponent } from './components/filters/filter-categories/filter-categories.component';
 
 
 
@@ -14,7 +15,8 @@ import { ViewCategoriesComponent } from './components/forms/view-categories/view
     PagesCategoriesComponent,
     TableCategoriesComponent,
     CreateEditCategoriesComponent,
-    ViewCategoriesComponent
+    ViewCategoriesComponent,
+    FilterCategoriesComponent
   ],
   imports: [
     CommonModule,
