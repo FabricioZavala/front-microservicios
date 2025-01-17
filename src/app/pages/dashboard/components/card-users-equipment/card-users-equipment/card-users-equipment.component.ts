@@ -68,25 +68,26 @@ export class CardUsersEquipmentComponent implements OnInit {
   }
 
   fetchUserData(): void {
+    const params = {
+      page: 1, // Asignar valores por defecto
+      limit: 10,
+    };
 
-    this.userService.getAll().subscribe({
-      next: (users) => {
+    this.userService.getAll(params).subscribe({
+      next: (response) => {
+        const users = response.data;
 
-        this.totalUsers = users.length;
+        this.totalUsers = response.totalCount;
 
         // Preparar datos para la gráfica
-        const categories = users.map((user) => {
-          return user.fullName || user.username || 'Usuario';
-        });
-        const seriesData = users.map((user) => {
-          return user.equipments?.length || 0;
-        });
-
+        const categories = users.map(
+          (user) => user.fullName || user.username || 'Usuario'
+        );
+        const seriesData = users.map((user) => user.equipments?.length || 0);
 
         // Actualizar opciones de la gráfica
         this.chartOptions.series = [{ name: 'Equipos', data: seriesData }];
         this.chartOptions.xaxis.categories = categories; // Asegurar que se asignen las categorías correctas
-
       },
       error: (err) => {
         console.error('Error al obtener datos de los usuarios:', err);

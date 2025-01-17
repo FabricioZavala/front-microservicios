@@ -52,17 +52,26 @@ export class CardUsersComponent implements OnInit {
   }
 
   fetchUserData(): void {
-    this.userService.getAll().subscribe({
-      next: (users) => {
-        this.totalUsers = users.length;
+    const params = {
+      page: 1, // Valores por defecto
+      limit: 100,
+    };
+
+    this.userService.getAll(params).subscribe({
+      next: (response) => {
+        const users = response.data;
+
+        this.totalUsers = response.totalCount;
 
         this.activeUsers = users.filter(
           (u) => u.status.toLowerCase() === 'active'
         ).length;
+
         this.inactiveUsers = users.filter(
           (u) => u.status.toLowerCase() === 'inactive'
         ).length;
 
+        // Actualizar datos de la gráfica
         this.chartOptions.series = [this.activeUsers, this.inactiveUsers];
       },
       error: (err) => {

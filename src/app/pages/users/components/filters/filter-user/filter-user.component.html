@@ -1,0 +1,89 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 col-xl-12">
+        <div class="card">
+          <div class="card-header card-header-filter">
+            <h5 class="card-title">Filtros de Usuarios</h5>
+            <button
+              class="btn btn-link"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#filterCardContent"
+              aria-expanded="false"
+              aria-controls="filterCardContent"
+              (click)="toggleExpand()"
+            >
+              <i
+                class="fa"
+                [ngClass]="{
+                  'fa-chevron-up': !isExpanded,
+                  'fa-chevron-down': isExpanded
+                }"
+              ></i>
+            </button>
+          </div>
+          <div id="filterCardContent" class="collapse">
+            <div class="card-body">
+              <form [formGroup]="userFilterForm">
+                <div class="row mb-3">
+                  <div class="col-sm-4">
+                    <label for="fullName" class="form-label">Nombre</label>
+                    <input
+                      id="fullName"
+                      type="text"
+                      formControlName="fullName"
+                      class="form-control"
+                      placeholder="Ingrese el nombre"
+                    />
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input
+                      id="email"
+                      type="email"
+                      formControlName="email"
+                      class="form-control"
+                      placeholder="Ingrese el correo electrónico"
+                    />
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="status" class="form-label">Estado</label>
+                    <select id="status" class="form-select" formControlName="status">
+                      <option value="">Seleccione un estado</option>
+                      <option value="active">Activo</option>
+                      <option value="inactive">Inactivo</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="roles" class="form-label">Rol</label>
+                    <select id="roles" class="form-select" formControlName="roles">
+                      <option value="">Seleccione un rol</option>
+                      <option value="user">Usuario</option>
+                      <option value="admin">Administrador</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+              <div class="text-end">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-restore me-1"
+                  (click)="resetFilter()"
+                >
+                  Restablecer
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-head me-1"
+                  (click)="sendFilter()"
+                >
+                  Filtrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

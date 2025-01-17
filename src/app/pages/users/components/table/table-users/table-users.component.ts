@@ -8,6 +8,7 @@ import { ViewUsersComponent } from '../../forms/view-users/view-users/view-users
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { FilterCommunicationService } from '../../../../../core/services/filter-communication.service';
 @Component({
   selector: 'app-table-users',
   templateUrl: './table-users.component.html',
@@ -16,28 +17,49 @@ import 'jspdf-autotable';
 export class TableUsersComponent implements OnInit {
   users: User[] = [];
   loading: boolean = false;
-  collectionSize: number = 0; // Tamaño de la colección para paginación
+  collectionSize: number = 0;
+  page: number = 1;
+  limit: number = 10;
 
   constructor(
     private userService: UserService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private filterService: FilterCommunicationService
   ) {}
 
   ngOnInit(): void {
+    // Cargar usuarios al iniciar
     this.loadUsers();
+
+    // Escuchar cambios en los filtros
+    this.filterService.currentFilter.subscribe((filters) => {
+      if (filters) {
+        this.page = 1; // Reiniciar a la primera página al aplicar filtros
+        this.loadUsers(filters);
+      }
+    });
   }
 
-  loadUsers(): void {
+  loadUsers(filters: any = {}): void {
     this.loading = true;
-    this.userService.getAll().subscribe({
-      next: (data) => {
-        this.users = data.map((user) => ({
+    const params = {
+      page: this.page,
+      limit: this.limit,
+      fullName: filters.fullName || '', // Agregar fullName a los parámetros
+      email: filters.email || '',
+      status: filters.status || '',
+      roles: filters.roles || '',
+    };
+
+    this.userService.getAll(params).subscribe({
+      next: (response) => {
+        this.users = response.data.map((user) => ({
           ...user,
           equipmentNames: user.equipments?.length
             ? user.equipments.map((equipment) => equipment.name).join(', ')
             : 'Sin equipos',
         }));
-        this.collectionSize = data.length;
+        this.collectionSize = response.totalCount;
         this.loading = false;
       },
       error: () => {
@@ -45,11 +67,6 @@ export class TableUsersComponent implements OnInit {
         this.loading = false;
       },
     });
-  }
-
-  // Recargar tabla
-  reloadTable(): void {
-    this.loadUsers();
   }
 
   // Eliminar usuario
@@ -184,8 +201,21 @@ export class TableUsersComponent implements OnInit {
     XLSX.writeFile(workbook, 'Reporte_Usuarios.xlsx');
   }
 
-  // Controlar paginación
-  onPageChange(page: number): void {}
+  onPageChange(page: number): void {
+    this.page = page;
+    this.loadUsers();
+  }
 
-  onLimitChange(limit: number): void {}
+  // Cambiar límite
+  onLimitChange(limit: number): void {
+    this.limit = limit;
+    this.page = 1; // Reiniciar a la primera página
+    this.loadUsers();
+  }
+
+  reloadTable(): void {
+    this.filterService.currentFilter.subscribe((filters) => {
+      this.loadUsers(filters);
+    });
+  }
 }

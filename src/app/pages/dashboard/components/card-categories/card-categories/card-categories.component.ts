@@ -48,10 +48,10 @@ export class CardCategoriesComponent implements OnInit {
         },
       },
       xaxis: {
-        type: 'datetime', // Indicar que el eje X es de tipo fecha
+        type: 'datetime',
         labels: {
           formatter: (value: string) =>
-            dayjs(value).locale('es').format('D MMM YYYY'), // Formato: Día Mes Año
+            dayjs(value).locale('es').format('D MMM YYYY'),
         },
       },
       dataLabels: {
@@ -68,8 +68,9 @@ export class CardCategoriesComponent implements OnInit {
   }
 
   fetchCategories(): void {
-    this.categoryService.getCategories().subscribe({
-      next: (categories) => {
+    this.categoryService.getCategories({ page: 1, limit: 100 }).subscribe({
+      next: (response) => {
+        const categories = response.data;
         console.log('Categorías obtenidas:', categories);
 
         const groupedByDay: Record<string, number> = {};
@@ -77,10 +78,8 @@ export class CardCategoriesComponent implements OnInit {
         this.categoriesToday = 0;
 
         categories.forEach((cat) => {
-          const creationDate = dayjs(cat.createdAt)
-            .add(1, 'day') // Corregir desfase de un día
-            .format('YYYY-MM-DD');
-          console.log(`Fecha corregida para categoría (${cat.name}):`, creationDate);
+          const creationDate = dayjs(cat.createdAt).format('YYYY-MM-DD');
+          console.log(`Fecha para categoría (${cat.name}):`, creationDate);
 
           // Contar categorías por día
           groupedByDay[creationDate] = (groupedByDay[creationDate] || 0) + 1;
@@ -100,8 +99,8 @@ export class CardCategoriesComponent implements OnInit {
           const timestamp = new Date(day).getTime();
           console.log(`Timestamp para ${day}:`, timestamp);
           return {
-            x: timestamp, // Timestamp en el eje X
-            y: groupedByDay[day], // Valor (cantidad de categorías)
+            x: timestamp,
+            y: groupedByDay[day],
           };
         });
       },

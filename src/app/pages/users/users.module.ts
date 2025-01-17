@@ -7,6 +7,7 @@ import { TableUsersComponent } from './components/table/table-users/table-users.
 import { CreateEditUsersComponent } from './components/forms/create-edit-users/create-edit-users/create-edit-users.component';
 import { ViewUsersComponent } from './components/forms/view-users/view-users/view-users.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FilterUserComponent } from './components/filters/filter-user/filter-user.component';
 
 
 
@@ -15,7 +16,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     PagesUsersComponent,
     TableUsersComponent,
     CreateEditUsersComponent,
-    ViewUsersComponent
+    ViewUsersComponent,
+    FilterUserComponent
   ],
   imports: [
     CommonModule,

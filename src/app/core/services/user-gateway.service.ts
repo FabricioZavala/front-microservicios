@@ -12,10 +12,10 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   // Obtener todos los usuarios
-  getAll(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}`);
+  getAll(params: { page: number; limit: number }): Observable<{ data: User[]; totalCount: number }> {
+    return this.http.get<{ data: User[]; totalCount: number }>(`${this.baseUrl}`, { params });
   }
-
+  
   // Obtener un usuario por ID
   getById(id: string): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/${id}`);
