@@ -81,6 +81,7 @@ export class CreateEditUsersComponent implements OnInit {
       equipmentIds: this.selectedEquipments.map((e) => e._id),
     });
   }
+  
 
   removeSelection(equipment: Equipment): void {
     this.selectedEquipments = this.selectedEquipments.filter((e) => e._id !== equipment._id);
