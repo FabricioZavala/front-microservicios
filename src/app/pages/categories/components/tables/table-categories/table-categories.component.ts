@@ -5,7 +5,9 @@ import { Category } from '../../../../../core/interfaces/category.interface';
 import { CategoryGatewayService } from '../../../../../core/services/category-gateway.service';
 import { CreateEditCategoriesComponent } from '../../forms/create-edit-categories/create-edit-categories/create-edit-categories.component';
 import { ViewCategoriesComponent } from '../../forms/view-categories/view-categories/view-categories.component';
-
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-table-categories',
@@ -75,7 +77,11 @@ export class TableCategoriesComponent implements OnInit {
       if (result.isConfirmed) {
         this.categoryService.deleteCategory(id).subscribe({
           next: () => {
-            Swal.fire('Eliminado', 'Categoría eliminada correctamente.', 'success');
+            Swal.fire(
+              'Eliminado',
+              'Categoría eliminada correctamente.',
+              'success'
+            );
             this.loadCategories();
           },
           error: () => {
@@ -85,4 +91,92 @@ export class TableCategoriesComponent implements OnInit {
       }
     });
   }
+
+  downloadAsExcel(): void {
+    const dataToExport = this.categories.map((cat) => ({
+      Nombre: cat.name,
+      Descripción: cat.description || 'Sin descripción',
+      Estado: cat.status === 'active' ? 'Activo' : 'Inactivo',
+      'Fecha de Creación': new Date(cat.createdAt).toLocaleDateString(),
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Categorías');
+
+    XLSX.writeFile(workbook, 'Categorias.xlsx');
+  }
+
+  downloadAsPDF(): void {
+    const doc = new jsPDF();
+  
+    // Título del PDF
+    const title = 'Reporte de Categorías';
+    const date = new Date().toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    doc.setFontSize(18);
+    doc.text(title, 14, 15);
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(`Fecha de generación: ${date}`, 14, 22);
+  
+    // Datos de la tabla
+    const tableColumn = ['Nombre', 'Descripción', 'Estado', 'Fecha de Creación'];
+    const tableRows = this.categories.map((cat) => [
+      cat.name,
+      cat.description || 'Sin descripción',
+      cat.status === 'active' ? 'Activo' : 'Inactivo',
+      new Date(cat.createdAt).toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }),
+    ]);
+  
+    // Configuración de la tabla
+    (doc as any).autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30, // Espaciado inicial
+      styles: {
+        fontSize: 10,
+        halign: 'center', // Alinear el contenido al centro
+        lineColor: [200, 200, 200], // Bordes suaves
+        lineWidth: 0.1,
+      },
+      headStyles: {
+        fillColor: [50, 50, 50], // Color de fondo de la cabecera
+        textColor: [255, 255, 255], // Color del texto en la cabecera
+        fontStyle: 'bold',
+      },
+      alternateRowStyles: {
+        fillColor: [240, 240, 240], // Color alternativo para las filas
+      },
+      bodyStyles: {
+        textColor: [50, 50, 50], // Color del texto de las filas
+      },
+      margin: { top: 20 },
+    });
+  
+    // Pie de página
+    const pageCount = doc.internal.pages.length - 1; // Calcular número de páginas
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.text(
+        `Página ${i} de ${pageCount}`,
+        doc.internal.pageSize.width / 2,
+        doc.internal.pageSize.height - 10,
+        { align: 'center' }
+      );
+    }
+  
+    // Guardar el archivo PDF
+    doc.save('Reporte_Categorias.pdf');
+  }
+  
+  
 }
