@@ -54,37 +54,39 @@ export class CardEquipmentComponent implements OnInit {
   }
 
   fetchEquipmentData(): void {
-
     this.equipmentService.getAll().subscribe({
-      next: (equipments) => {
-
-        this.totalEquipment = equipments.length;
-
+      next: (response) => {
+        const equipments = response.data; // Acceder a los equipos desde `data`
+  
+        this.totalEquipment = response.totalCount; // Usar `totalCount` para el total
+  
         this.availableEquipment = equipments.filter(
           (e) => e.status.toLowerCase() === 'disponible'
         ).length;
+  
         this.inUseEquipment = equipments.filter(
           (e) => e.status.toLowerCase() === 'en uso'
         ).length;
+  
         this.maintenanceEquipment = equipments.filter(
           (e) => e.status.toLowerCase() === 'en mantenimiento'
         ).length;
+  
         this.damagedEquipment = equipments.filter(
           (e) => e.status.toLowerCase() === 'dañado'
         ).length;
-
-
+  
         this.chartOptions.series = [
           this.availableEquipment,
           this.inUseEquipment,
           this.maintenanceEquipment,
           this.damagedEquipment,
         ];
-
       },
       error: (err) => {
         console.error('Error al obtener datos de los equipos:', err);
       },
     });
   }
+  
 }

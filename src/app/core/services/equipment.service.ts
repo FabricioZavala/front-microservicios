@@ -11,10 +11,10 @@ export class EquipmentService {
 
   constructor(private http: HttpClient) {}
 
-  // Obtener todos los equipos
-  getAll(): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(`${this.baseUrl}`);
+  getAll(params?: { page?: number; limit?: number; name?: string; description?: string; status?: string; categoryName?: string }): Observable<{ data: Equipment[]; totalCount: number }> {
+    return this.http.get<{ data: Equipment[]; totalCount: number }>(`${this.baseUrl}`, { params });
   }
+  
 
   // Obtener un equipo por ID
   getById(id: string): Observable<Equipment> {

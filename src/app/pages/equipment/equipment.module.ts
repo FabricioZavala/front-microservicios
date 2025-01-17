@@ -6,6 +6,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { TableEquipmentComponent } from './components/table/table-equipment/table-equipment.component';
 import { CreateEditEquipmentComponent } from './components/forms/create-edit-equipment/create-edit-equipment/create-edit-equipment.component';
 import { ViewEquipmentComponent } from './components/forms/view-equipment/view-equipment/view-equipment.component';
+import { FilterEquipmentComponent } from './components/filters/filter-equipment/filter-equipment.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -14,12 +16,14 @@ import { ViewEquipmentComponent } from './components/forms/view-equipment/view-e
     PagesEquipmentComponent,
     TableEquipmentComponent,
     CreateEditEquipmentComponent,
-    ViewEquipmentComponent
+    ViewEquipmentComponent,
+    FilterEquipmentComponent
   ],
   imports: [
     CommonModule,
     EquipmentRoutingModule,
     SharedModule,
+    NgSelectModule
   ]
 })
 export class EquipmentModule { }

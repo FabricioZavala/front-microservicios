@@ -51,8 +51,8 @@ export class CreateEditUsersComponent implements OnInit {
 
   private loadEquipments(): void {
     this.equipmentService.getAll().subscribe({
-      next: (data) => {
-        this.equipments = data;
+      next: (response) => {
+        this.equipments = response.data;
         if (this.user?.equipmentIds) {
           this.selectedEquipments = this.equipments.filter((equipment) =>
             this.user?.equipmentIds.includes(equipment._id),

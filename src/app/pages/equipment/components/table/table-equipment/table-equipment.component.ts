@@ -8,6 +8,7 @@ import { ViewEquipmentComponent } from '../../forms/view-equipment/view-equipmen
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { FilterCommunicationService } from '../../../../../core/services/filter-communication.service';
 
 @Component({
   selector: 'app-table-equipment',
@@ -20,24 +21,47 @@ export class TableEquipmentComponent implements OnInit {
   collectionSize = 0;
   page = 1;
   limit = 10;
+  filters: { name?: string; description?: string; status?: string; categoryName?: string } = {};
 
   constructor(
     private equipmentService: EquipmentService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private filterService: FilterCommunicationService
   ) {}
 
   ngOnInit(): void {
     this.loadEquipments();
+
+    // Suscribirse al servicio de comunicación de filtros
+    this.filterService.currentFilter.subscribe((filter) => {
+      if (filter) {
+        this.filters = filter;
+        this.page = 1; // Reiniciar a la primera página al aplicar filtros
+        this.loadEquipments();
+      }
+    });
   }
 
-  // Cargar equipos
   loadEquipments(): void {
     this.isLoading = true;
-    this.equipmentService.getAll().subscribe({
-      next: (data) => {
-        this.equipments = data;
-        this.collectionSize = data.length; // Ajustar si hay paginación
+  
+    const params = {
+      page: this.page,
+      limit: this.limit,
+      name: this.filters.name || '',
+      description: this.filters.description || '',
+      status: this.filters.status || '',
+      categoryName: this.filters.categoryName || '', // Incluir el nombre de la categoría
+    };
+  
+    console.log('Parámetros enviados al backend:', params);
+  
+    this.equipmentService.getAll(params).subscribe({
+      next: (response) => {
+        this.equipments = response.data;
+        this.collectionSize = response.totalCount;
         this.isLoading = false;
+        console.log('Datos recibidos del backend:', response);
       },
       error: (err) => {
         this.isLoading = false;
@@ -45,7 +69,8 @@ export class TableEquipmentComponent implements OnInit {
       },
     });
   }
-
+  
+  
   // Recargar tabla
   reloadTable(): void {
     this.loadEquipments();

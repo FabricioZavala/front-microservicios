@@ -49,8 +49,8 @@ export class CreateEditEquipmentComponent implements OnInit {
   // Cargar categorías
   loadCategories(): void {
     this.categoryService.getCategories().subscribe({
-      next: (categories) => {
-        this.categories = categories;
+      next: (response) => {
+        this.categories = response.data;
       },
       error: (err) => {
         console.error('Error al cargar categorías:', err);

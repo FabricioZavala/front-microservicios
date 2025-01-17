@@ -97,6 +97,14 @@
           </table>
         </div>
       </div>
+      <div class="card-footer">
+        <shared-custom-pagination
+          [collectionSize]="collectionSize"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onLimitChange($event)"
+        ></shared-custom-pagination>
+      </div>
+      
     </div>
   </div>
 </div>
