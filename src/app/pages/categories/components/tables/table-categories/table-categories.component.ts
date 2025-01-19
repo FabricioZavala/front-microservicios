@@ -37,7 +37,6 @@ export class TableCategoriesComponent implements OnInit {
   subscribeToFilters(): void {
     this.filterService.currentFilter.subscribe((filters) => {
       if (filters) {
-        console.log('Filtros recibidos desde el servicio:', filters);
         this.filters = filters;
         this.page = 1;
         this.loadCategories();
@@ -54,11 +53,9 @@ export class TableCategoriesComponent implements OnInit {
       ...this.filters,
     };
 
-    console.log('Parámetros enviados al servicio:', params);
 
     this.categoryService.getCategories(params).subscribe({
       next: (data: any) => {
-        console.log('Datos recibidos del servicio:', data);
         this.categories = data.data;
         this.collectionSize = data.totalCount;
         this.isLoading = false;

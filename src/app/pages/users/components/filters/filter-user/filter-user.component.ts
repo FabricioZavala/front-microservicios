@@ -39,7 +39,6 @@ export class FilterUserComponent implements OnInit {
       roles: formValues.roles || '',
     };
   
-    console.log('Filtros aplicados:', filters);
     this.filterCommunicationService.changeFilter(filters);
   }
 
@@ -58,7 +57,6 @@ export class FilterUserComponent implements OnInit {
       roles: '',
     };
 
-    console.log('Filtros restablecidos:', resetFilters);
     this.filterCommunicationService.changeFilter(resetFilters);
   }
 

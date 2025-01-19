@@ -55,7 +55,6 @@ export class FilterEquipmentComponent implements OnInit {
       categoryName: fv.categoryName || '',
     };
 
-    console.log('Filtros aplicados:', filters);
     this.filterCommunicationService.changeFilter(filters);
   }
 
@@ -74,7 +73,6 @@ export class FilterEquipmentComponent implements OnInit {
       categoryName: '',
     };
 
-    console.log('Filtros restablecidos:', resetFilters);
     this.filterCommunicationService.changeFilter(resetFilters);
   }
 

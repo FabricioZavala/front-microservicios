@@ -53,14 +53,12 @@ export class TableEquipmentComponent implements OnInit {
       categoryName: this.filters.categoryName || '',
     };
 
-    console.log('Parámetros enviados al backend:', params);
 
     this.equipmentService.getAll(params).subscribe({
       next: (response) => {
         this.equipments = response.data;
         this.collectionSize = response.totalCount;
         this.isLoading = false;
-        console.log('Datos recibidos del backend:', response);
       },
       error: (err) => {
         this.isLoading = false;
