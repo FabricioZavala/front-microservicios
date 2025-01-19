@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'; // Importar EventEmitter
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -13,10 +13,10 @@ import { Category } from '../../../../../../core/interfaces/category.interface';
   styleUrls: ['./create-edit-equipment.component.scss'],
 })
 export class CreateEditEquipmentComponent implements OnInit {
-  @Input() equipment?: Equipment; // Equipo a editar
-  @Output() refreshTable = new EventEmitter<void>(); // Emitir evento para actualizar la tabla
+  @Input() equipment?: Equipment;
+  @Output() refreshTable = new EventEmitter<void>();
   equipmentForm!: FormGroup;
-  categories: Category[] = []; // Lista de categorías
+  categories: Category[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -30,7 +30,6 @@ export class CreateEditEquipmentComponent implements OnInit {
     this.loadCategories();
   }
 
-  // Inicializar el formulario
   initializeForm(): void {
     this.equipmentForm = this.fb.group({
       name: [
@@ -46,7 +45,6 @@ export class CreateEditEquipmentComponent implements OnInit {
     });
   }
 
-  // Cargar categorías
   loadCategories(): void {
     this.categoryService.getCategories().subscribe({
       next: (response) => {
@@ -58,7 +56,6 @@ export class CreateEditEquipmentComponent implements OnInit {
     });
   }
 
-  // Verificar si el campo es inválido
   isInvalid(field: string): boolean {
     const control = this.equipmentForm.get(field);
     return control
@@ -66,7 +63,6 @@ export class CreateEditEquipmentComponent implements OnInit {
       : false;
   }
 
-  // Obtener mensaje de error
   getErrorMessage(field: string): string {
     const control = this.equipmentForm.get(field);
     if (control?.hasError('required')) {
@@ -78,7 +74,6 @@ export class CreateEditEquipmentComponent implements OnInit {
     return '';
   }
 
-  // Guardar equipo
   saveEquipment(): void {
     if (this.equipmentForm.invalid) {
       return;
@@ -87,7 +82,6 @@ export class CreateEditEquipmentComponent implements OnInit {
     const equipmentData: Partial<Equipment> = this.equipmentForm.value;
 
     if (this.equipment) {
-      // Actualizar equipo
       this.equipmentService
         .update(this.equipment._id, equipmentData)
         .subscribe({
@@ -105,7 +99,6 @@ export class CreateEditEquipmentComponent implements OnInit {
           },
         });
     } else {
-      // Crear equipo
       this.equipmentService.create(equipmentData).subscribe({
         next: () => {
           Swal.fire('Creado', 'El equipo se creó correctamente.', 'success');
@@ -119,11 +112,10 @@ export class CreateEditEquipmentComponent implements OnInit {
     }
   }
 
-  // Cerrar modal
   closeModal(updated: boolean = false): void {
     this.activeModal.dismiss();
     if (updated) {
-      this.refreshTable.emit(); // Emitir evento para actualizar la tabla
+      this.refreshTable.emit();
     }
   }
 }

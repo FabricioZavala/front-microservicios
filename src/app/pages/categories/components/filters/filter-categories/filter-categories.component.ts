@@ -30,28 +30,22 @@ export class FilterCategoriesComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.filterForm.reset(); // Restablecer el formulario
-    const emptyFilters = {}; // Filtros vacíos
+    this.filterForm.reset();
+    const emptyFilters = {}; 
   
-    this.filterService.changeFilter(emptyFilters); // Enviar filtros vacíos
+    this.filterService.changeFilter(emptyFilters);
   
-    this.filterService.changeFilter(emptyFilters); // Enviar filtros vacíos
+    this.filterService.changeFilter(emptyFilters);
   }
-  
-  
 
   sendFilter(): void {
     const filters = this.filterForm.value;
   
-    // Reemplazar valores nulos por cadenas vacías
     const cleanedFilters = Object.keys(filters).reduce((acc: Record<string, string>, key: string) => {
       acc[key] = filters[key] === null ? '' : filters[key];
       return acc;
     }, {});
   
-    console.log('Filtros aplicados:', cleanedFilters);
-    this.filterService.changeFilter(cleanedFilters); // Enviar filtros limpios
+    this.filterService.changeFilter(cleanedFilters);
   }
-  
-  
 }

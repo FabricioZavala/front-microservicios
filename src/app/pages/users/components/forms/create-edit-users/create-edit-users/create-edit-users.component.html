@@ -9,7 +9,6 @@
 </div>
 <div class="modal-body">
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <!-- Nombre de Usuario -->
     <div class="mb-3">
       <label for="username" class="form-label">Nombre de Usuario</label>
       <input
@@ -24,7 +23,6 @@
       </div>
     </div>
 
-    <!-- Email -->
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
       <input
@@ -39,7 +37,6 @@
       </div>
     </div>
 
-    <!-- Contraseña -->
     <div class="mb-3" *ngIf="!user">
       <label for="password" class="form-label">Contraseña</label>
       <input
@@ -54,7 +51,6 @@
       </div>
     </div>
 
-    <!-- Roles -->
     <div class="mb-3">
       <label for="roles" class="form-label">Roles</label>
       <ng-select
@@ -71,7 +67,6 @@
       </div>
     </div>
 
-    <!-- Nombre Completo -->
     <div class="mb-3">
       <label for="fullName" class="form-label">Nombre Completo</label>
       <input
@@ -82,7 +77,6 @@
       />
     </div>
 
-    <!-- Acordeón de Equipos -->
     <div class="accordion" id="equipmentAccordion">
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingEquipment">

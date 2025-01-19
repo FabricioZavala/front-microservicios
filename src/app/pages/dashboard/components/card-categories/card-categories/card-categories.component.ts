@@ -6,7 +6,7 @@ import {
   ApexDataLabels,
 } from 'ng-apexcharts';
 import * as dayjs from 'dayjs';
-import 'dayjs/locale/es'; // Importar el idioma español
+import 'dayjs/locale/es';
 import { CategoryGatewayService } from '../../../../../core/services/category-gateway.service';
 
 @Component({
@@ -15,7 +15,7 @@ import { CategoryGatewayService } from '../../../../../core/services/category-ga
   styleUrls: ['./card-categories.component.scss'],
 })
 export class CardCategoriesComponent implements OnInit {
-  public categoriesToday: number = 0; // Total de categorías creadas hoy
+  public categoriesToday: number = 0;
   public chartOptions: {
     series: ApexAxisChartSeries;
     chart: ApexChart;
@@ -28,7 +28,7 @@ export class CardCategoriesComponent implements OnInit {
       series: [
         {
           name: 'Categorías creadas',
-          data: [], // Se llenará dinámicamente
+          data: [],
         },
       ],
       chart: {
@@ -37,7 +37,7 @@ export class CardCategoriesComponent implements OnInit {
         toolbar: {
           show: true,
           tools: {
-            download: true, // Solo habilitar descarga
+            download: true,
             selection: false,
             zoom: false,
             zoomin: false,
@@ -59,7 +59,6 @@ export class CardCategoriesComponent implements OnInit {
       },
     };
 
-    // Configurar el idioma global para dayjs
     dayjs.locale('es');
   }
 
@@ -71,7 +70,6 @@ export class CardCategoriesComponent implements OnInit {
     this.categoryService.getCategories({ page: 1, limit: 100 }).subscribe({
       next: (response) => {
         const categories = response.data;
-        console.log('Categorías obtenidas:', categories);
 
         const groupedByDay: Record<string, number> = {};
         const today = dayjs().format('YYYY-MM-DD');
@@ -79,25 +77,18 @@ export class CardCategoriesComponent implements OnInit {
 
         categories.forEach((cat) => {
           const creationDate = dayjs(cat.createdAt).format('YYYY-MM-DD');
-          console.log(`Fecha para categoría (${cat.name}):`, creationDate);
 
-          // Contar categorías por día
           groupedByDay[creationDate] = (groupedByDay[creationDate] || 0) + 1;
 
-          // Contar las creadas hoy
           if (creationDate === today) {
             this.categoriesToday++;
           }
         });
 
-        console.log('Agrupación por día:', groupedByDay);
-
         const days = Object.keys(groupedByDay).sort();
-        console.log('Días ordenados:', days);
 
         this.chartOptions.series[0].data = days.map((day) => {
           const timestamp = new Date(day).getTime();
-          console.log(`Timestamp para ${day}:`, timestamp);
           return {
             x: timestamp,
             y: groupedByDay[day],

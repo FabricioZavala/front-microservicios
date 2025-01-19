@@ -33,7 +33,7 @@ export class FilterUserComponent implements OnInit {
     const formValues = this.userFilterForm.value;
   
     const filters = {
-      fullName: formValues.fullName || '', // Filtrar por fullName
+      fullName: formValues.fullName || '',
       email: formValues.email || '',
       status: formValues.status || '',
       roles: formValues.roles || '',
@@ -42,7 +42,6 @@ export class FilterUserComponent implements OnInit {
     console.log('Filtros aplicados:', filters);
     this.filterCommunicationService.changeFilter(filters);
   }
-  
 
   resetFilter(): void {
     this.userFilterForm.reset({

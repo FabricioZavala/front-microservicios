@@ -46,7 +46,6 @@
             </thead>
 
             <tbody>
-              <!-- Loader -->
               <tr *ngIf="loading">
                 <td colspan="6" class="text-center">
                   <div class="spinner-border" role="status">
@@ -55,7 +54,6 @@
                 </td>
               </tr>
 
-              <!-- Fila de usuarios -->
               <tr *ngFor="let user of users">
                 <td>
                   <div class="btn-group mb-2">

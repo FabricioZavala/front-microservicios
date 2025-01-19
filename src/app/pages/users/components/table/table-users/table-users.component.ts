@@ -9,6 +9,7 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { FilterCommunicationService } from '../../../../../core/services/filter-communication.service';
+
 @Component({
   selector: 'app-table-users',
   templateUrl: './table-users.component.html',
@@ -28,13 +29,11 @@ export class TableUsersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Cargar usuarios al iniciar
     this.loadUsers();
 
-    // Escuchar cambios en los filtros
     this.filterService.currentFilter.subscribe((filters) => {
       if (filters) {
-        this.page = 1; // Reiniciar a la primera página al aplicar filtros
+        this.page = 1;
         this.loadUsers(filters);
       }
     });
@@ -45,7 +44,7 @@ export class TableUsersComponent implements OnInit {
     const params = {
       page: this.page,
       limit: this.limit,
-      fullName: filters.fullName || '', // Agregar fullName a los parámetros
+      fullName: filters.fullName || '',
       email: filters.email || '',
       status: filters.status || '',
       roles: filters.roles || '',
@@ -69,7 +68,6 @@ export class TableUsersComponent implements OnInit {
     });
   }
 
-  // Eliminar usuario
   deleteUser(id: string): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -94,28 +92,25 @@ export class TableUsersComponent implements OnInit {
     });
   }
 
-  // Abrir modal para crear o editar usuario
   openCreateEditModal(user?: User): void {
     const modalRef = this.modalService.open(CreateEditUsersComponent, {
       size: 'lg',
     });
-    modalRef.componentInstance.user = user; // Pasar usuario al modal
+    modalRef.componentInstance.user = user;
 
     modalRef.result.then(() => {
       this.reloadTable();
     });
   }
 
-  // Abrir modal para ver usuario
   openViewModal(user: User): void {
     const modalRef = this.modalService.open(ViewUsersComponent, { size: 'lg' });
-    modalRef.componentInstance.user = user; // Pasar usuario al modal
+    modalRef.componentInstance.user = user;
   }
 
   downloadAsPDF(): void {
     const doc = new jsPDF();
 
-    // Título del PDF
     const title = 'Reporte de Usuarios';
     const date = new Date().toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -128,7 +123,6 @@ export class TableUsersComponent implements OnInit {
     doc.setTextColor(100);
     doc.text(`Fecha de generación: ${date}`, 14, 22);
 
-    // Datos de la tabla
     const tableColumn = [
       'Nombre Completo',
       'Email',
@@ -144,33 +138,31 @@ export class TableUsersComponent implements OnInit {
       user.equipmentNames || 'Sin equipos',
     ]);
 
-    // Configuración de la tabla
     (doc as any).autoTable({
       head: [tableColumn],
       body: tableRows,
-      startY: 30, // Espaciado inicial
+      startY: 30,
       styles: {
         fontSize: 10,
-        halign: 'center', // Alinear el contenido al centro
-        lineColor: [200, 200, 200], // Bordes suaves
+        halign: 'center',
+        lineColor: [200, 200, 200],
         lineWidth: 0.1,
       },
       headStyles: {
-        fillColor: [50, 50, 50], // Color de fondo de la cabecera
-        textColor: [255, 255, 255], // Color del texto en la cabecera
+        fillColor: [50, 50, 50],
+        textColor: [255, 255, 255],
         fontStyle: 'bold',
       },
       alternateRowStyles: {
-        fillColor: [240, 240, 240], // Color alternativo para las filas
+        fillColor: [240, 240, 240],
       },
       bodyStyles: {
-        textColor: [50, 50, 50], // Color del texto de las filas
+        textColor: [50, 50, 50],
       },
       margin: { top: 20 },
     });
 
-    // Pie de página
-    const pageCount = doc.internal.pages.length - 1; // Calcular número de páginas
+    const pageCount = doc.internal.pages.length - 1;
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);
       doc.setFontSize(10);
@@ -206,10 +198,9 @@ export class TableUsersComponent implements OnInit {
     this.loadUsers();
   }
 
-  // Cambiar límite
   onLimitChange(limit: number): void {
     this.limit = limit;
-    this.page = 1; // Reiniciar a la primera página
+    this.page = 1;
     this.loadUsers();
   }
 

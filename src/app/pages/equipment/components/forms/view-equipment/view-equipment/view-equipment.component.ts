@@ -8,7 +8,7 @@ import { Equipment } from '../../../../../../core/interfaces/equipment.interface
   styleUrls: ['./view-equipment.component.scss'],
 })
 export class ViewEquipmentComponent {
-  @Input() equipment!: Equipment; // Recibe el equipo desde la tabla
+  @Input() equipment!: Equipment;
 
   constructor(public activeModal: NgbActiveModal) {}
 

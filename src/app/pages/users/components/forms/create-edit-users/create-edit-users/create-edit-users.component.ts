@@ -12,7 +12,7 @@ import { AuthGatewayService } from '../../../../../../core/services/auth.service
   styleUrls: ['./create-edit-users.component.scss'],
 })
 export class CreateEditUsersComponent implements OnInit {
-  @Input() user?: any; // Usuario a editar (si existe)
+  @Input() user?: any;
 
   userForm: FormGroup;
   equipments: Equipment[] = [];
@@ -31,10 +31,10 @@ export class CreateEditUsersComponent implements OnInit {
     this.userForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.minLength(6)]], // Contraseña obligatoria solo al crear
+      password: ['', [Validators.minLength(6)]],
       roles: [this.user?.roles || [], Validators.required],
       fullName: [''],
-      status: [true, Validators.required], // Boolean para el estado
+      status: [true, Validators.required],
       equipmentIds: [[]],
     });
   }
@@ -81,7 +81,6 @@ export class CreateEditUsersComponent implements OnInit {
       equipmentIds: this.selectedEquipments.map((e) => e._id),
     });
   }
-  
 
   removeSelection(equipment: Equipment): void {
     this.selectedEquipments = this.selectedEquipments.filter((e) => e._id !== equipment._id);

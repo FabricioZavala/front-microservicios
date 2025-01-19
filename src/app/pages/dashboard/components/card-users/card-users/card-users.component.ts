@@ -53,7 +53,7 @@ export class CardUsersComponent implements OnInit {
 
   fetchUserData(): void {
     const params = {
-      page: 1, // Valores por defecto
+      page: 1,
       limit: 100,
     };
 
@@ -71,7 +71,6 @@ export class CardUsersComponent implements OnInit {
           (u) => u.status.toLowerCase() === 'inactive'
         ).length;
 
-        // Actualizar datos de la gráfica
         this.chartOptions.series = [this.activeUsers, this.inactiveUsers];
       },
       error: (err) => {

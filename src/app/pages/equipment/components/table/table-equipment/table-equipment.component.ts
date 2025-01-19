@@ -32,11 +32,10 @@ export class TableEquipmentComponent implements OnInit {
   ngOnInit(): void {
     this.loadEquipments();
 
-    // Suscribirse al servicio de comunicación de filtros
     this.filterService.currentFilter.subscribe((filter) => {
       if (filter) {
         this.filters = filter;
-        this.page = 1; // Reiniciar a la primera página al aplicar filtros
+        this.page = 1;
         this.loadEquipments();
       }
     });
@@ -44,18 +43,18 @@ export class TableEquipmentComponent implements OnInit {
 
   loadEquipments(): void {
     this.isLoading = true;
-  
+
     const params = {
       page: this.page,
       limit: this.limit,
       name: this.filters.name || '',
       description: this.filters.description || '',
       status: this.filters.status || '',
-      categoryName: this.filters.categoryName || '', // Incluir el nombre de la categoría
+      categoryName: this.filters.categoryName || '',
     };
-  
+
     console.log('Parámetros enviados al backend:', params);
-  
+
     this.equipmentService.getAll(params).subscribe({
       next: (response) => {
         this.equipments = response.data;
@@ -69,14 +68,11 @@ export class TableEquipmentComponent implements OnInit {
       },
     });
   }
-  
-  
-  // Recargar tabla
+
   reloadTable(): void {
     this.loadEquipments();
   }
 
-  // Abrir modal de creación/edición
   openCreateEditModal(equipment?: Equipment): void {
     const modalRef = this.modalService.open(CreateEditEquipmentComponent, {
       size: 'lg',
@@ -85,14 +81,13 @@ export class TableEquipmentComponent implements OnInit {
     if (equipment) {
       modalRef.componentInstance.equipment = equipment;
     }
-  
+
     modalRef.componentInstance.refreshTable.subscribe(() => {
-      this.loadEquipments(); // Recargar la tabla cuando se emita el evento
+      this.loadEquipments();
     });
-  
-    modalRef.result.catch(() => {}); // Opcional: manejar cierres del modal sin acción
+
+    modalRef.result.catch(() => {});
   }
-  
 
   openViewModal(equipment: Equipment): void {
     const modalRef = this.modalService.open(ViewEquipmentComponent, {
@@ -129,8 +124,7 @@ export class TableEquipmentComponent implements OnInit {
 
   downloadAsPDF(): void {
     const doc = new jsPDF();
-  
-    // Título del PDF
+
     const title = 'Reporte de Equipos';
     const date = new Date().toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -142,8 +136,7 @@ export class TableEquipmentComponent implements OnInit {
     doc.setFontSize(11);
     doc.setTextColor(100);
     doc.text(`Fecha de generación: ${date}`, 14, 22);
-  
-    // Datos de la tabla
+
     const tableColumn = ['Nombre', 'Descripción', 'Estado', 'Categoría'];
     const tableRows = this.equipments.map((equipment) => [
       equipment.name,
@@ -151,34 +144,32 @@ export class TableEquipmentComponent implements OnInit {
       equipment.status,
       equipment.categoryInfo?.name || 'Sin categoría',
     ]);
-  
-    // Configuración de la tabla
+
     (doc as any).autoTable({
       head: [tableColumn],
       body: tableRows,
-      startY: 30, // Espaciado inicial
+      startY: 30,
       styles: {
         fontSize: 10,
-        halign: 'center', // Alinear el contenido al centro
-        lineColor: [200, 200, 200], // Bordes suaves
+        halign: 'center',
+        lineColor: [200, 200, 200],
         lineWidth: 0.1,
       },
       headStyles: {
-        fillColor: [50, 50, 50], // Color de fondo de la cabecera
-        textColor: [255, 255, 255], // Color del texto en la cabecera
+        fillColor: [50, 50, 50],
+        textColor: [255, 255, 255],
         fontStyle: 'bold',
       },
       alternateRowStyles: {
-        fillColor: [240, 240, 240], // Color alternativo para las filas
+        fillColor: [240, 240, 240],
       },
       bodyStyles: {
-        textColor: [50, 50, 50], // Color del texto de las filas
+        textColor: [50, 50, 50],
       },
       margin: { top: 20 },
     });
-  
-    // Pie de página
-    const pageCount = doc.internal.pages.length - 1; // Calcular número de páginas
+
+    const pageCount = doc.internal.pages.length - 1;
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);
       doc.setFontSize(10);
@@ -189,11 +180,10 @@ export class TableEquipmentComponent implements OnInit {
         { align: 'center' }
       );
     }
-  
-    // Guardar el archivo PDF
+
     doc.save('Reporte_Equipos.pdf');
   }
-  
+
   downloadAsExcel(): void {
     const dataToExport = this.equipments.map((equipment) => ({
       Nombre: equipment.name,
@@ -201,21 +191,19 @@ export class TableEquipmentComponent implements OnInit {
       Estado: equipment.status,
       Categoría: equipment.categoryInfo?.name || 'Sin categoría',
     }));
-  
+
     const worksheet = XLSX.utils.json_to_sheet(dataToExport);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Equipos');
-  
+
     XLSX.writeFile(workbook, 'Reporte_Equipos.xlsx');
   }
 
-  // Cambiar página
   onPageChange(page: number): void {
     this.page = page;
     this.loadEquipments();
   }
 
-  // Cambiar límite
   onLimitChange(limit: number): void {
     this.limit = limit;
     this.loadEquipments();

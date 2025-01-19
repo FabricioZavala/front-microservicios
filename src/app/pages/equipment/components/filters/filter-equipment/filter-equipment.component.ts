@@ -25,7 +25,6 @@ export class FilterEquipmentComponent implements OnInit {
     this.loadCategories();
   }
 
-  // Inicializar formulario
   initializeForm(): void {
     this.equipmentFilterForm = this.fb.group({
       name: [''],
@@ -35,7 +34,6 @@ export class FilterEquipmentComponent implements OnInit {
     });
   }
 
-  // Cargar categorías
   loadCategories(): void {
     this.categoryService.getCategories({ page: 1, limit: 100 }).subscribe({
       next: (response) => {
@@ -54,7 +52,7 @@ export class FilterEquipmentComponent implements OnInit {
       name: fv.name || '',
       description: fv.description || '',
       status: fv.status || '',
-      categoryName: fv.categoryName || '', // Aquí enviamos el nombre de la categoría
+      categoryName: fv.categoryName || '',
     };
 
     console.log('Filtros aplicados:', filters);
@@ -66,7 +64,7 @@ export class FilterEquipmentComponent implements OnInit {
       name: '',
       description: '',
       status: '',
-      categoryName: '', // Vaciamos la categoría por nombre
+      categoryName: '',
     });
 
     const resetFilters = {
@@ -80,7 +78,6 @@ export class FilterEquipmentComponent implements OnInit {
     this.filterCommunicationService.changeFilter(resetFilters);
   }
 
-  // Expandir o colapsar el formulario
   toggleExpand(): void {
     this.isExpanded = !this.isExpanded;
   }

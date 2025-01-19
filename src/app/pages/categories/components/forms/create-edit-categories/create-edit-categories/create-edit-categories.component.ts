@@ -11,7 +11,7 @@ import { CategoryGatewayService } from '../../../../../../core/services/category
   styleUrls: ['./create-edit-categories.component.scss'],
 })
 export class CreateEditCategoriesComponent implements OnInit {
-  @Input() category?: Category; // Recibirá la categoría para editar (si aplica)
+  @Input() category?: Category;
 
   categoryForm!: FormGroup;
 
@@ -24,11 +24,10 @@ export class CreateEditCategoriesComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     if (this.category) {
-      this.categoryForm.patchValue(this.category); // Cargar datos si está editando
+      this.categoryForm.patchValue(this.category);
     }
   }
 
-  // Inicializar el formulario
   initForm(): void {
     this.categoryForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
@@ -37,21 +36,17 @@ export class CreateEditCategoriesComponent implements OnInit {
     });
   }
 
-  // Validar si el control tiene errores
   isControlInvalid(controlName: string): boolean {
     const control = this.categoryForm.get(controlName);
     return !!control?.invalid && (control.dirty || control.touched);
   }
 
-  // Cerrar el modal
   closeModal(): void {
     this.activeModal.dismiss();
   }
 
-  // Enviar el formulario
   onSubmit(): void {
     if (this.category) {
-      // Actualizar categoría
       this.categoryService
         .updateCategory(this.category._id, this.categoryForm.value)
         .subscribe({
@@ -64,7 +59,6 @@ export class CreateEditCategoriesComponent implements OnInit {
           },
         });
     } else {
-      // Crear nueva categoría
       this.categoryService.createCategory(this.categoryForm.value).subscribe({
         next: () => {
           Swal.fire('Éxito', 'Categoría creada correctamente.', 'success');

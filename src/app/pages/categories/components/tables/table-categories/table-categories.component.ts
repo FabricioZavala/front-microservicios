@@ -51,7 +51,7 @@ export class TableCategoriesComponent implements OnInit {
     const params = {
       page: this.page,
       limit: this.limit,
-      ...this.filters, // Filtros dinámicos
+      ...this.filters,
     };
 
     console.log('Parámetros enviados al servicio:', params);
@@ -140,7 +140,6 @@ export class TableCategoriesComponent implements OnInit {
   downloadAsPDF(): void {
     const doc = new jsPDF();
 
-    // Título del PDF
     const title = 'Reporte de Categorías';
     const date = new Date().toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -153,7 +152,6 @@ export class TableCategoriesComponent implements OnInit {
     doc.setTextColor(100);
     doc.text(`Fecha de generación: ${date}`, 14, 22);
 
-    // Datos de la tabla
     const tableColumn = ['Nombre', 'Descripción', 'Estado', 'Fecha de Creación'];
     const tableRows = this.categories.map((cat) => [
       cat.name,

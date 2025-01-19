@@ -2,12 +2,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGatewayService {
-  private readonly baseUrl = 'http://localhost:3005/auth-gateway';
+  private readonly baseUrl = `${environment.gatewayUrl}/auth-gateway`;
 
   constructor(private http: HttpClient) {}
 

@@ -10,7 +10,7 @@ import { Category } from '../../../../../../core/interfaces/category.interface';
   styleUrls: ['./view-categories.component.scss'],
 })
 export class ViewCategoriesComponent implements OnInit {
-  @Input() categoryId!: string; // ID de la categoría a visualizar
+  @Input() categoryId!: string;
   category: Category | null = null;
 
   constructor(
@@ -22,11 +22,9 @@ export class ViewCategoriesComponent implements OnInit {
     this.loadCategory();
   }
 
-  // Cargar los datos de la categoría
   loadCategory(): void {
     this.categoryService.getCategories().subscribe({
       next: (categories) => {
-        // Busca la categoría con comparación robusta
         this.category = categories.find(
           (cat) => cat._id.trim() === this.categoryId.trim()
         ) || null;
@@ -52,7 +50,6 @@ export class ViewCategoriesComponent implements OnInit {
     });
   }
 
-  // Cerrar el modal
   closeModal(): void {
     this.activeModal.dismiss();
   }

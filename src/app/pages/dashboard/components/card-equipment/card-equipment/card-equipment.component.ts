@@ -56,9 +56,9 @@ export class CardEquipmentComponent implements OnInit {
   fetchEquipmentData(): void {
     this.equipmentService.getAll().subscribe({
       next: (response) => {
-        const equipments = response.data; // Acceder a los equipos desde `data`
+        const equipments = response.data;
   
-        this.totalEquipment = response.totalCount; // Usar `totalCount` para el total
+        this.totalEquipment = response.totalCount;
   
         this.availableEquipment = equipments.filter(
           (e) => e.status.toLowerCase() === 'disponible'
@@ -88,5 +88,4 @@ export class CardEquipmentComponent implements OnInit {
       },
     });
   }
-  
 }

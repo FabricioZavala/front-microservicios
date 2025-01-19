@@ -46,7 +46,7 @@ export class CardUsersEquipmentComponent implements OnInit {
       xaxis: {
         categories: [],
         labels: {
-          formatter: (value) => value, // Asegurarse de mostrar el texto del usuario
+          formatter: (value) => value,
         },
       },
       yaxis: {
@@ -69,7 +69,7 @@ export class CardUsersEquipmentComponent implements OnInit {
 
   fetchUserData(): void {
     const params = {
-      page: 1, // Asignar valores por defecto
+      page: 1,
       limit: 10,
     };
 
@@ -79,15 +79,13 @@ export class CardUsersEquipmentComponent implements OnInit {
 
         this.totalUsers = response.totalCount;
 
-        // Preparar datos para la gráfica
         const categories = users.map(
           (user) => user.fullName || user.username || 'Usuario'
         );
         const seriesData = users.map((user) => user.equipments?.length || 0);
 
-        // Actualizar opciones de la gráfica
         this.chartOptions.series = [{ name: 'Equipos', data: seriesData }];
-        this.chartOptions.xaxis.categories = categories; // Asegurar que se asignen las categorías correctas
+        this.chartOptions.xaxis.categories = categories;
       },
       error: (err) => {
         console.error('Error al obtener datos de los usuarios:', err);
