@@ -1,79 +1,82 @@
-
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12 col-xl-12">
-        <div class="card">
-          <div class="card-header card-header-filter d-flex align-items-center justify-content-between">
-            <h5 class="card-title">Filtros de Búsqueda</h5>
-            <button
-              class="btn btn-link p-0"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#filterCardContent"
-              aria-expanded="false"
-              aria-controls="filterCardContent"
-              (click)="toggleExpand()"
-            >
-              <i
-                class="fa"
-                [ngClass]="{
-                  'fa-chevron-up': isExpanded,
-                  'fa-chevron-down': !isExpanded
-                }"
-              ></i>
-            </button>
-          </div>
-          <div id="filterCardContent" class="collapse">
-            <div class="card-body">
-              <form [formGroup]="filterForm">
-                <div class="row mb-3">
-                  <div class="col-sm-4">
-                    <label class="col-form-label">Nombre</label>
-                    <input
-                      type="text"
-                      formControlName="name"
-                      class="form-control custom-input"
-                      placeholder="Ingresa el nombre"
-                    />
-                  </div>
-                  <div class="col-sm-4">
-                    <label class="col-form-label">Descripción</label>
-                    <input
-                      type="text"
-                      formControlName="description"
-                      class="form-control custom-input"
-                      placeholder="Ingresa la descripción"
-                    />
-                  </div>
-                  <div class="col-sm-4">
-                    <label class="col-form-label">Estado</label>
-                    <select
-                      class="form-control custom-input"
-                      formControlName="status"
-                    >
-                      <option value="">Selecciona un estado</option>
-                      <option value="active">Activo</option>
-                      <option value="inactive">Inactivo</option>
-                    </select>
-                  </div>
+  <div class="row">
+    <div class="col-sm-12 col-xl-12">
+      <div class="card">
+        <div
+          class="card-header card-header-filter"
+        >
+          <h5 class="card-title">Filtros de Búsqueda</h5>
+          <button
+            class="btn btn-link p-0"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#filterCardContent"
+            aria-expanded="false"
+            aria-controls="filterCardContent"
+            (click)="toggleExpand()"
+          >
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-chevron-up': isExpanded,
+                'fa-chevron-down': !isExpanded
+              }"
+            ></i>
+          </button>
+        </div>
+        <div id="filterCardContent" class="collapse">
+          <div class="card-body">
+            <form [formGroup]="filterForm">
+              <div class="row mb-3">
+                <div class="col-sm-4">
+                  <label class="col-form-label">Nombre</label>
+                  <input
+                    type="text"
+                    formControlName="name"
+                    class="form-control custom-input"
+                    placeholder="Ingresa el nombre"
+                  />
                 </div>
-              </form>
-              <div class="text-end">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-restore me-1"
-                  (click)="resetForm()"
-                >
-                  Restablecer
-                </button>
-                <button (click)="sendFilter()" class="btn btn-sm btn-head me-1">
-                  Filtrar
-                </button>
+                <div class="col-sm-4">
+                  <label class="col-form-label">Descripción</label>
+                  <input
+                    type="text"
+                    formControlName="description"
+                    class="form-control custom-input"
+                    placeholder="Ingresa la descripción"
+                  />
+                </div>
+                <div class="col-sm-4">
+                  <label class="col-form-label">Estado</label>
+                  <select
+                    class="form-control custom-input"
+                    formControlName="status"
+                  >
+                    <option value="">Selecciona un estado</option>
+                    <option value="active">Activo</option>
+                    <option value="inactive">Inactivo</option>
+                  </select>
+                </div>
               </div>
+            </form>
+            <div class="text-end">
+              <button
+                type="button"
+                class="btn btn-sm btn-restore me-1"
+                (click)="resetForm()"
+              >
+                Restablecer
+              </button>
+              <button
+                (click)="sendFilter()"
+                class="btn btn-sm btn-head me-1 btn-wide-filter-send"
+              >
+                Filtrar
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

@@ -16,7 +16,7 @@
             <i class="far fa-file-excel"></i>
           </button>
 
-          <button class="btn btn-sm btn-danger me-3" (click)="downloadAsPDF()">
+          <button class="btn btn-sm btn-head me-3" (click)="downloadAsPDF()">
             <i class="fa-solid fa-file-pdf"></i>
           </button>
 
@@ -44,14 +44,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngIf="isLoading">
+              @if (isLoading) {
+              <tr>
                 <td colspan="5">
                   <div class="loader-box">
                     <div class="loader-16"></div>
                   </div>
                 </td>
               </tr>
-              <tr *ngFor="let equipment of equipments">
+              }
+              @for ( equipment of equipments; track $index) {
+              <tr>
                 <td>
                   <div class="d-flex align-items-center">
                     <div class="btn-group mb-2">
@@ -73,7 +76,7 @@
                         <i class="fas fa-trash-alt"></i>
                       </button>
                       <button
-                        class="btn btn-sm btn-success mt-2"
+                        class="btn btn-sm btn-head mt-2"
                         ngbTooltip="Editar equipo"
                         tooltipClass="custom-tooltip"
                         (click)="openCreateEditModal(equipment)"
@@ -84,15 +87,18 @@
                   </div>
                 </td>
                 <td>{{ equipment.name }}</td>
-                <td>{{ equipment.description || "Sin descripción" }}</td>
+                <td ellipsisOverflow>{{ equipment.description || "Sin descripción" }}</td>
                 <td>{{ equipment.status }}</td>
                 <td>{{ equipment.categoryInfo?.name || "Sin categoría" }}</td>
               </tr>
-              <tr *ngIf="!isLoading && equipments.length === 0">
+            }
+              @if (!isLoading && equipments.length === 0) {
+              <tr>
                 <td colspan="5" class="text-center">
                   No hay equipos disponibles.
                 </td>
               </tr>
+            }
             </tbody>
           </table>
         </div>
@@ -104,7 +110,6 @@
           (pageSizeChange)="onLimitChange($event)"
         ></shared-custom-pagination>
       </div>
-      
     </div>
   </div>
 </div>

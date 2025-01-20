@@ -17,17 +17,17 @@
   height: 100%;
   background: #60d7a9;
 }
-
+//botones secundari
 .btn-refresh {
   padding: 0.375rem 0.75rem;
-  background-color: var(--refresh-button-color) !important;
+  background-color: var(--state-new-color) !important;
   color: var(--primary-button-text-color) !important;
   border: none;
 }
-
+//botones primarios
 .btn-head {
   padding: 0.375rem 0.75rem;
-  background-color: var(--primary-button-color) !important;
+  background-color: var(--color-processing) !important;
   color: var(--primary-button-text-color) !important;
   border: none;
 }
@@ -52,4 +52,35 @@
 .toast-error {
   background-color: #dc3545 !important;
   color: #fff !important;
+}
+
+.btn-restore {
+  background-color: var(--disabled-button-text-color) !important;
+  color: inherit !important;
+  border: none !important;
+  pointer-events: auto !important;
+  transition: none !important;
+}
+
+.btn-restore:hover,
+.btn-restore:focus,
+.btn-restore:active {
+  background-color: var(--disabled-button-text-color) !important;
+  color: inherit !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.btn-wide-filter-send {
+  width: 127px;
+  height: 31px;
+}
+
+.card-header-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  border-radius: 10px;
 }

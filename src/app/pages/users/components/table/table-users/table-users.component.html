@@ -16,7 +16,7 @@
             <i class="far fa-file-excel"></i>
           </button>
 
-          <button class="btn btn-sm btn-danger me-3" (click)="downloadAsPDF()">
+          <button class="btn btn-sm btn-head me-3" (click)="downloadAsPDF()">
             <i class="fa-solid fa-file-pdf"></i>
           </button>
           <button
@@ -46,14 +46,15 @@
             </thead>
 
             <tbody>
-              <tr *ngIf="loading">
+              @if (loading) {
+              <tr>
                 <td colspan="6" class="text-center">
                   <div class="spinner-border" role="status">
                     <span class="sr-only">Cargando...</span>
                   </div>
                 </td>
               </tr>
-
+              }
               <tr *ngFor="let user of users">
                 <td>
                   <div class="btn-group mb-2">
@@ -74,7 +75,7 @@
                       <i class="fas fa-trash"></i>
                     </button>
                     <button
-                      class="btn btn-sm btn-success mt-2"
+                      class="btn btn-sm btn-head mt-2"
                       ngbTooltip="Editar Usuario"
                       tooltipClass="custom-tooltip"
                       (click)="openCreateEditModal(user)"
@@ -87,7 +88,7 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.status }}</td>
                 <td>{{ user.roles?.join(", ") || "Sin roles" }}</td>
-                <td>{{ user.equipmentNames }}</td>
+                <td ellipsisOverflow>{{ user.equipmentNames }}</td>
               </tr>
             </tbody>
           </table>
@@ -95,12 +96,11 @@
       </div>
       <div class="card-footer">
         <shared-custom-pagination
-        [collectionSize]="collectionSize"
-        (pageChange)="onPageChange($event)"
-        (pageSizeChange)="onLimitChange($event)"
-      ></shared-custom-pagination>
+          [collectionSize]="collectionSize"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onLimitChange($event)"
+        ></shared-custom-pagination>
       </div>
-      
     </div>
   </div>
 </div>

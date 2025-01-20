@@ -1,19 +1,19 @@
 <div class="container-fluid basic_table">
-  <div class="row">
-    <div class="col-xxl-12 col-xl-12 box-cSol-12">
-      <div class="col-sm-12">
-        <div class="row mt-3">
-          <div class="col-12">
-            <div class="mb-sm-0">
-              <app-card-equipment></app-card-equipment>
-              <br />
-            </div>
-          </div>
-        </div>
-        <app-card-categories></app-card-categories>
-      </div>
+  <app-breadcrumb></app-breadcrumb>
+  <div class="row widget-grid">
+    <div class="col-md-6 same-height">
+      <app-card-categories></app-card-categories>
+    </div>
+    <div class="col-md-6 same-height">
+      <app-card-users-equipment></app-card-users-equipment>
+    </div>
+  </div>
+  <div class="row widget-grid">
+    <div class="col-md-6 same-height">
       <app-card-users></app-card-users>
     </div>
-    <app-card-users-equipment></app-card-users-equipment>
+    <div class="col-md-6 same-height">
+      <app-card-equipment></app-card-equipment>
+    </div>
   </div>
 </div>

@@ -20,19 +20,19 @@ export class LanguagesComponent implements OnInit {
     {
       language: 'Español',
       code: 'es',
-      icon: 'es',
+      icon: 'ec',
     },
-    {
-      language: 'Français',
-      code: 'fr',
-      icon: 'fr',
-    },
-    {
-      language: 'Português',
-      code: 'pt',
-      type: 'BR',
-      icon: 'pt',
-    },
+    // {
+    //   language: 'Français',
+    //   code: 'fr',
+    //   icon: 'fr',
+    // },
+    // {
+    //   language: 'Português',
+    //   code: 'pt',
+    //   type: 'BR',
+    //   icon: 'pt',
+    // },
   ];
 
   public selectedLanguage: any = {
@@ -58,9 +58,15 @@ export class LanguagesComponent implements OnInit {
         this.translate.use(savedLanguage.code);
       }
     } else {
-      this.translate.use(this.selectedLanguage.code);
+      const defaultLanguage = this.languages.find((lang) => lang.code === 'es');
+      if (defaultLanguage) {
+        this.selectedLanguage = defaultLanguage;
+        this.translate.use(defaultLanguage.code);
+        localStorage.setItem('selectedLanguage', defaultLanguage.code);
+      }
     }
   }
+  
 
   changeLanguage(lang: { code: string }) {
     this.translate.use(lang.code);

@@ -17,7 +17,7 @@
             <i class="far fa-file-excel"></i>
           </button>
 
-          <button class="btn btn-sm btn-danger me-3" (click)="downloadAsPDF()">
+          <button class="btn btn-sm btn-head me-3" (click)="downloadAsPDF()">
             <i class="fa-solid fa-file-pdf"></i>
           </button>
           <button
@@ -41,8 +41,10 @@
                 <th>Fecha de Creación</th>
               </tr>
             </thead>
-            <tbody *ngIf="!isLoading && categories.length > 0">
-              <tr *ngFor="let category of categories">
+            @if (!isLoading && categories.length > 0) {
+            <tbody>
+              @for (category of categories; track $index) {
+              <tr>
                 <td>
                   <div class="d-flex align-items-center">
                     <div class="btn-group mb-2">
@@ -74,13 +76,15 @@
                   </div>
                 </td>
                 <td>{{ category.name }}</td>
-                <td>{{ category.description || "Sin descripción" }}</td>
+                <td ellipsisOverflow>{{ category.description || "Sin descripción" }}</td>
                 <td>
                   {{ category.status === "active" ? "Activo" : "Inactivo" }}
                 </td>
                 <td>{{ category.createdAt | date : "short" }}</td>
               </tr>
+            }
             </tbody>
+            }
           </table>
         </div>
       </div>

@@ -26,7 +26,7 @@ export class ViewCategoriesComponent implements OnInit {
     this.categoryService.getCategories().subscribe({
       next: (categories) => {
         this.category = categories.find(
-          (cat) => cat._id.trim() === this.categoryId.trim()
+          (cat: Category) => cat._id.trim() === this.categoryId.trim()
         ) || null;
 
         if (!this.category) {

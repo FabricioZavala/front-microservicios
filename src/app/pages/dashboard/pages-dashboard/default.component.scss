@@ -1,0 +1,22 @@
+.card {
+    height: 100%; /* Permite que los cards crezcan uniformemente */
+    min-height: 300px; /* Ajusta según tus necesidades */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye el contenido */
+  }
+  
+  .card-body {
+    flex-grow: 1; /* Permite que el contenido del body ocupe el espacio restante */
+  }
+  
+  .row.widget-grid {
+    display: flex;
+    align-items: stretch; /* Alinea los cards de la misma fila */
+  }
+  
+  .col-md-6 {
+    display: flex;
+    flex-direction: column;
+  }
+  

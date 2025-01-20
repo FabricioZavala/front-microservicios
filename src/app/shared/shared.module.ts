@@ -20,6 +20,7 @@ import { LanguagesComponent } from './components/header/elements/languages/langu
 import { MyAccountComponent } from './components/header/elements/my-account/my-account.component';
 import { NotificationComponent } from './components/header/elements/notification/notification.component';
 import { CustomPaginationComponent } from './components/paginations/custom-pagination/custom-pagination.component';
+import { EllipsisOverflowDirective } from './directives/ellipsis-overflow.directive';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { CustomPaginationComponent } from './components/paginations/custom-pagin
     MyAccountComponent,
     NotificationComponent,
     CustomPaginationComponent,
+    EllipsisOverflowDirective
     
   ],
   imports: [
@@ -55,7 +57,8 @@ import { CustomPaginationComponent } from './components/paginations/custom-pagin
     TranslateModule,
     TapToTopComponent,
     BreadcrumbComponent,
-    CustomPaginationComponent
+    CustomPaginationComponent,
+    EllipsisOverflowDirective 
   ],
 })
 export class SharedModule {}

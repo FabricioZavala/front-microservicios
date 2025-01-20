@@ -1134,7 +1134,7 @@ body {
                           &.active {
                             svg {
                               &.stroke-icon {
-                                stroke: var(--theme-deafult);
+                                stroke: $primary-color;
                               }
 
                               &.fill-icon {
