@@ -205,8 +205,9 @@ export class TableUsersComponent implements OnInit {
   }
 
   reloadTable(): void {
-    this.filterService.currentFilter.subscribe((filters) => {
-      this.loadUsers(filters);
-    });
+    this.page = 1;
+  
+    this.loadUsers();
   }
+  
 }
