@@ -93,16 +93,23 @@ export class TableUsersComponent implements OnInit {
   }
 
   openCreateEditModal(user?: User): void {
+    console.log(user ? 'Editando usuario:' : 'Creando nuevo usuario:', user);
     const modalRef = this.modalService.open(CreateEditUsersComponent, {
       size: 'lg',
     });
     modalRef.componentInstance.user = user;
-
-    modalRef.result.then(() => {
-      this.reloadTable();
-    });
+  
+    modalRef.result.then(
+      () => {
+        console.log('Modal cerrado con éxito.');
+        this.reloadTable();
+      },
+      (reason) => {
+        console.log('Modal cerrado con motivo:', reason);
+      }
+    );
   }
-
+  
   openViewModal(user: User): void {
     const modalRef = this.modalService.open(ViewUsersComponent, { size: 'lg' });
     modalRef.componentInstance.user = user;

@@ -29,7 +29,7 @@ export const content: Routes = [
     path: 'users',
     loadChildren: () =>
       import('../../pages/users/users.module').then((m) => m.UsersModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'user',

@@ -114,7 +114,7 @@ export class NavService implements OnDestroy {
       type: 'link',
       badgeType: 'light-secondary',
       active: false,
-      roles: ['user','admin' ],
+      roles: ['admin' ],
     },
     {
       title: 'Users',
@@ -123,7 +123,7 @@ export class NavService implements OnDestroy {
       type: 'link',
       badgeType: 'light-secondary',
       active: false,
-      roles: ['admin','user'],
+      roles: ['admin'],
     },
   ];
 
