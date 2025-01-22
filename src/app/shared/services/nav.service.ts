@@ -125,6 +125,15 @@ export class NavService implements OnDestroy {
       active: false,
       roles: ['admin'],
     },
+    {
+      title: 'Audit',
+      path: '/audit',
+      icon: 'search',
+      type: 'link',
+      badgeType: 'light-secondary',
+      active: false,
+      roles: ['admin'],
+    },
   ];
 
   items = new BehaviorSubject<Menu[]>(this.MENUITEMS);

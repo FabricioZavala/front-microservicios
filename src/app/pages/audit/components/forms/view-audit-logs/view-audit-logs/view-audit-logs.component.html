@@ -1,0 +1,77 @@
+<div>
+  <div class="modal-header justify-content-center">
+    <h4 class="modal-title text-center">Detalles de Auditoría</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <h6 class="text-primary">Información General</h6>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><strong>Acción:</strong></td>
+              <td>{{ log.action | titlecase }}</td>
+            </tr>
+            <tr>
+              <td><strong>Entidad:</strong></td>
+              <td>{{ log.entity }}</td>
+            </tr>
+            <tr>
+              <td><strong>ID de Entidad:</strong></td>
+              <td>{{ log.entityId }}</td>
+            </tr>
+            <tr>
+              <td><strong>Fecha:</strong></td>
+              <td>{{ log.timestamp | date : "medium" }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <h6 class="text-primary">Detalles de Cambios</h6>
+        @if (detailsKeys.length > 0) {
+        <div>
+          <table class="table">
+            <tbody>
+              <tr *ngFor="let detail of detailsKeys">
+                <td>
+                  <strong>{{ detail | titlecase }}:</strong>
+                </td>
+                @if (isObject(log.details[detail])) {
+                <td>
+                  <table class="table">
+                    <tbody>
+                        @for (key of getObjectKeys(log.details[detail]); track $index) {
+                      <tr>
+                        <td>
+                          <strong>{{ key | titlecase }}:</strong>
+                        </td>
+                        <td>{{ log.details[detail][key] }}</td>
+                      </tr>
+                    }
+                    </tbody>
+                  </table>
+                </td>
+                } @if (!isObject(log.details[detail])) {
+                <td>
+                  {{ log.details[detail] }}
+                </td>
+                }
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        }@if (detailsKeys.length === 0) {
+        <div>
+          <p>No hay detalles adicionales disponibles.</p>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+      Cerrar
+    </button>
+  </div>
+</div>

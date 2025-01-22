@@ -1,0 +1,91 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 col-xl-12">
+        <div class="card">
+          <div class="card-header card-header-filter d-flex align-items-center justify-content-between">
+            <h5 class="card-title">Filtros de Auditorías</h5>
+            <button
+              class="btn btn-link p-0"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#filterCardContent"
+              aria-expanded="false"
+              aria-controls="filterCardContent"
+              (click)="toggleExpand()"
+            >
+              <i
+                class="fa"
+                [ngClass]="{
+                  'fa-chevron-up': isExpanded,
+                  'fa-chevron-down': !isExpanded
+                }"
+              ></i>
+            </button>
+          </div>
+          <div id="filterCardContent" class="collapse">
+            <div class="card-body">
+              <form [formGroup]="auditLogFilterForm">
+                <div class="row mb-3">
+                  <div class="col-sm-4">
+                    <label for="action" class="form-label">Acción</label>
+                    <ng-select
+                      [items]="actions"
+                      bindLabel="label"
+                      bindValue="value"
+                      placeholder="Seleccione una acción"
+                      formControlName="action"
+                    ></ng-select>
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="entity" class="form-label">Entidad</label>
+                    <ng-select
+                      [items]="entities"
+                      bindLabel="label"
+                      bindValue="value"
+                      placeholder="Seleccione una entidad"
+                      formControlName="entity"
+                    ></ng-select>
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="startDate" class="form-label">Fecha Inicio</label>
+                    <input
+                      id="startDate"
+                      type="date"
+                      formControlName="startDate"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="endDate" class="form-label">Fecha Fin</label>
+                    <input
+                      id="endDate"
+                      type="date"
+                      formControlName="endDate"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </form>
+              <div class="text-end">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-restore me-1"
+                  (click)="resetFilter()"
+                >
+                  Restablecer
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-head me-1 btn-wide-filter-send"
+                  (click)="sendFilter()"
+                >
+                  Filtrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

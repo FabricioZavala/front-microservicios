@@ -12,6 +12,13 @@ export class ViewEquipmentComponent {
 
   constructor(public activeModal: NgbActiveModal) {}
 
+  isObject(value: any): boolean {
+    return value && typeof value === 'object' && !Array.isArray(value);
+  }
+
+  getObjectKeys(obj: any): string[] {
+    return Object.keys(obj || {});
+  }
   closeModal(): void {
     this.activeModal.close();
   }

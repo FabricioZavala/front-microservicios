@@ -37,4 +37,10 @@ export const content: Routes = [
       import('../../pages/profile/profile.module').then((m) => m.ProfileModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'audit',
+    loadChildren: () =>
+      import('../../pages/audit/audit-logs.module').then((m) => m.AuditLogsModule),
+    canActivate: [AuthGuard]
+  },
 ];
