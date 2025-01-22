@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { Equipment } from '../../../../../../core/interfaces/equipment.interface';
 import { EquipmentService } from '../../../../../../core/services/equipment.service';
 import { AuthGatewayService } from '../../../../../../core/services/auth.service';
+import { EmailService } from '../../../../../../core/services/email.service';
 
 @Component({
   selector: 'app-create-edit-users',
@@ -21,12 +22,13 @@ export class CreateEditUsersComponent implements OnInit {
     { name: 'Usuario', value: 'user' },
     { name: 'Administrador', value: 'admin' },
   ];
-  
+
   constructor(
     private fb: FormBuilder,
     public activeModal: NgbActiveModal,
     private authService: AuthGatewayService,
     private equipmentService: EquipmentService,
+    private emailService: EmailService // Inject the EmailService
   ) {
     this.userForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -55,7 +57,7 @@ export class CreateEditUsersComponent implements OnInit {
         this.equipments = response.data;
         if (this.user?.equipmentIds) {
           this.selectedEquipments = this.equipments.filter((equipment) =>
-            this.user?.equipmentIds.includes(equipment._id),
+            this.user?.equipmentIds.includes(equipment._id)
           );
           this.userForm.patchValue({
             equipmentIds: this.selectedEquipments.map((e) => e._id),
@@ -77,13 +79,6 @@ export class CreateEditUsersComponent implements OnInit {
     } else {
       this.selectedEquipments.splice(index, 1);
     }
-    this.userForm.patchValue({
-      equipmentIds: this.selectedEquipments.map((e) => e._id),
-    });
-  }
-
-  removeSelection(equipment: Equipment): void {
-    this.selectedEquipments = this.selectedEquipments.filter((e) => e._id !== equipment._id);
     this.userForm.patchValue({
       equipmentIds: this.selectedEquipments.map((e) => e._id),
     });
@@ -121,6 +116,7 @@ export class CreateEditUsersComponent implements OnInit {
     if (this.user) {
       this.authService.update(this.user._id, userData).subscribe({
         next: () => {
+          this.sendEmailNotification(userData);
           Swal.fire('Éxito', 'Usuario actualizado correctamente.', 'success');
           this.activeModal.close();
         },
@@ -129,11 +125,26 @@ export class CreateEditUsersComponent implements OnInit {
     } else {
       this.authService.register(userData).subscribe({
         next: () => {
+          this.sendEmailNotification(userData);
           Swal.fire('Éxito', 'Usuario creado correctamente.', 'success');
           this.activeModal.close();
         },
         error: () => Swal.fire('Error', 'No se pudo crear el usuario.', 'error'),
       });
     }
+  }
+
+  private sendEmailNotification(userData: any): void {
+    const equipmentNames = this.selectedEquipments.map((e) => e.name).join(', ');
+    const emailData = {
+      user_name: userData.username,
+      equipment_name: equipmentNames || 'Ninguno',
+      email: userData.email,
+    };
+
+    this.emailService.sendEmail(emailData).then(
+      (response) => console.log('Correo enviado:', response),
+      (error) => console.error('Error al enviar el correo:', error)
+    );
   }
 }
