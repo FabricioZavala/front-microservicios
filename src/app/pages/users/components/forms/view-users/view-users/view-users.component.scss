@@ -1,0 +1,12 @@
+.list-group-item {
+    background-color: transparent !important;
+    color: inherit;
+    border: none;
+    padding: 0.5rem 0;
+  }
+  
+  .list-group {
+    --bs-list-group-color: inherit;
+    --bs-list-group-bg: transparent;
+  }
+  

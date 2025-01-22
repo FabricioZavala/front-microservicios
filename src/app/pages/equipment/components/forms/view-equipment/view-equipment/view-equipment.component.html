@@ -1,0 +1,62 @@
+<div>
+  <div class="modal-header justify-content-center">
+    <h4 class="modal-title text-center">Detalles del Equipo</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <h6 class="text-primary">Información General</h6>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><strong>ID:</strong></td>
+              <td>{{ equipment._id }}</td>
+            </tr>
+            <tr>
+              <td><strong>Nombre:</strong></td>
+              <td>{{ equipment.name }}</td>
+            </tr>
+            <tr>
+              <td><strong>Descripción:</strong></td>
+              <td>{{ equipment.description || "Sin descripción" }}</td>
+            </tr>
+            <tr>
+              <td><strong>Estado:</strong></td>
+              <td>{{ equipment.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <h6 class="text-primary">Categoría</h6>
+        @if (equipment.categoryInfo) {
+        <div>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td><strong>Nombre:</strong></td>
+                <td>{{ equipment.categoryInfo.name }}</td>
+              </tr>
+              <tr>
+                <td><strong>Descripción:</strong></td>
+                <td>
+                  {{ equipment.categoryInfo.description || "Sin descripción" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        } @if (!equipment.categoryInfo) {
+        <div class="alert alert-info">
+          Este equipo no está asignado a ninguna categoría.
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+      Cerrar
+    </button>
+  </div>
+</div>

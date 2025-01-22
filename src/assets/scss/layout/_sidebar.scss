@@ -793,7 +793,7 @@
                         svg {
                           transition: all 0.3s ease;
                           &.stroke-icon {
-                            stroke: var(--theme-deafult);
+                            stroke: $primary-color;
                           }
                           &.fill-icon {
                             fill: var(--theme-deafult);
@@ -1163,14 +1163,16 @@
                           display: none !important;
                         }
                         &:hover {
-                          .sidebar-submenu, .mega-menu-container {
+                          .sidebar-submenu,
+                          .mega-menu-container {
                             display: block !important;
                           }
                         }
                       }
 
                       &:hover {
-                        .sidebar-submenu, .mega-menu-container {
+                        .sidebar-submenu,
+                        .mega-menu-container {
                           display: block !important;
                         }
                       }
@@ -1630,22 +1632,22 @@
                             &:hover {
                               svg {
                                 fill: rgba($primary-color, 0.1%);
-                                stroke: var(--theme-deafult);
+                                stroke: var($primary-color);
                                 transition: all 0.3s ease;
                                 &.fill-icon {
-                                  fill: var(--theme-deafult);
+                                  fill: $primary-color;;
                                   stroke: none;
                                 }
                               }
 
                               span {
-                                color: var(--theme-deafult);
+                                color: $primary-color;;
                                 transition: all 0.3s ease;
                               }
 
                               .according-menu {
                                 i {
-                                  color: var(--theme-deafult);
+                                  color: $primary-color;;
                                   transition: all 0.3s ease;
                                 }
                               }
@@ -1910,7 +1912,7 @@
                             transition: all 0.5s ease;
                             position: relative;
                             margin-bottom: 10px;
-                            background-color: lighten($primary-color, 27%);
+                            background-color: lighten($primary-color, 40%);
                             &::after {
                               opacity: 1;
                               visibility: visible;
@@ -1923,12 +1925,12 @@
                             }
                             .according-menu {
                               i {
-                                color: var(--theme-deafult);
+                                color:$primary-color
                               }
                             }
 
                             span {
-                              color: var(--theme-deafult);
+                              color: $primary-color;;
                               transition: all 0.3s ease;
                             }
                           }
@@ -2373,7 +2375,8 @@
                       left: 20px;
                       top: 48%;
                       width: 8px;
-                      border-top: 2px solid rgba($theme-body-sub-title-color, 0.4);
+                      border-top: 2px solid
+                        rgba($theme-body-sub-title-color, 0.4);
                     }
                   }
                 }

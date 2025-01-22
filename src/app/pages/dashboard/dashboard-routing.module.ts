@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DefaultComponent } from './default/default.component';
+import { DefaultComponent } from './pages-dashboard/default.component';
 
 const dashboardRoutes: Routes = [
   {
-    path: "",
+    path: '',
     children: [
       {
         path: 'default',
-        component: DefaultComponent
-      }
-    ]
-  }
-]
+        component: DefaultComponent,
+      },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(dashboardRoutes)],

@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="card-header">
+    <h5>Usuarios y Equipos Asignados</h5>
+    <h5>Total Usuarios: {{ totalUsers }}</h5>
+  </div>
+  <div id="chart" class="card-body">
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [plotOptions]="chartOptions.plotOptions"
+      [dataLabels]="chartOptions.dataLabels"
+      [tooltip]="chartOptions.tooltip"
+      [yaxis]="chartOptions.yaxis"
+    ></apx-chart>
+  </div>
+</div>

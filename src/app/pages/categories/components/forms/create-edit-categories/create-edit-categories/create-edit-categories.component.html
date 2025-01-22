@@ -1,0 +1,65 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    {{ category ? "Editar Categoría" : "Crear Categoría" }}
+  </h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="categoryForm">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre</label>
+      <input
+        type="text"
+        id="name"
+        class="form-control"
+        formControlName="name"
+        [class.is-invalid]="isControlInvalid('name')"
+      />
+      <div class="invalid-feedback" *ngIf="isControlInvalid('name')">
+        El nombre es obligatorio.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Descripción</label>
+      <textarea
+        id="description"
+        rows="3"
+        class="form-control"
+        formControlName="description"
+      ></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="status" class="form-label">Estado</label>
+      <select
+        id="status"
+        class="form-select"
+        formControlName="status"
+        [class.is-invalid]="isControlInvalid('status')"
+      >
+        <option value="active">Activo</option>
+        <option value="inactive">Inactivo</option>
+      </select>
+      <div class="invalid-feedback" *ngIf="isControlInvalid('status')">
+        El estado es obligatorio.
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">
+    Cancelar
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    [disabled]="categoryForm.invalid"
+    (click)="onSubmit()"
+  >
+    {{ category ? "Guardar Cambios" : "Crear" }}
+  </button>
+</div>

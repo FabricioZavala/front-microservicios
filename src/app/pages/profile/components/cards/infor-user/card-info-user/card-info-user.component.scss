@@ -1,0 +1,40 @@
+.card {
+    border-radius: 10px;
+  
+    .card-header {
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+    }
+  
+    .card-body {
+      font-size: 14px;
+  
+      h6 {
+        font-size: 12px;
+        margin-bottom: 0;
+        color: #6c757d;
+      }
+  
+      p {
+        margin-bottom: 5px;
+      }
+  
+      .badge {
+        font-size: 13px;
+        padding: 5px 10px;
+      }
+  
+      .badge-success {
+        background-color: #28a745;
+      }
+  
+      .badge-danger {
+        background-color: #dc3545;
+      }
+  
+      .badge-info {
+        background-color: #17a2b8;
+      }
+    }
+  }
+  

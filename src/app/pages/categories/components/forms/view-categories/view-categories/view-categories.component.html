@@ -1,0 +1,56 @@
+<div>
+  <div class="modal-header justify-content-center">
+    <h4 class="modal-title text-center">Detalles de la Categoría</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><strong>Nombre:</strong> {{ category?.name }}</td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Descripción:</strong>
+                {{ category?.description || "No especificada" }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Creado:</strong>
+                {{ category?.createdAt | date : "dd/MM/yyyy HH:mm" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>
+                <strong>Estado:</strong>
+                <span
+                  [ngClass]="
+                    category?.status === 'active' ? 'text-success' : 'text-danger'
+                  "
+                >
+                  {{ category?.status === "active" ? "Activo" : "Inactivo" }}
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>ID:</strong> {{ category?._id }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+      Cerrar
+    </button>
+  </div>
+</div>

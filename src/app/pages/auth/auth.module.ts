@@ -4,6 +4,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { LoginComponent } from './login/login.component';
 import { AuthenticationRoutingModule } from './auth-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -12,6 +13,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AuthenticationRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+      timeOut: 3000,
+      preventDuplicates: true,
+    }),
   ],
   declarations: [LoginComponent],
 })

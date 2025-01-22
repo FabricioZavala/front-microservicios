@@ -1,0 +1,144 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ user ? "Editar Usuario" : "Crear Usuario" }}</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="close()"
+  ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="username" class="form-label">Nombre de Usuario</label>
+      <input
+        id="username"
+        type="text"
+        class="form-control"
+        formControlName="username"
+        [ngClass]="{ 'is-invalid': isInvalid('username') }"
+      />
+      <div *ngIf="isInvalid('username')" class="invalid-feedback">
+        {{ getError("username") }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        id="email"
+        type="email"
+        class="form-control"
+        formControlName="email"
+        [ngClass]="{ 'is-invalid': isInvalid('email') }"
+      />
+      <div *ngIf="isInvalid('email')" class="invalid-feedback">
+        {{ getError("email") }}
+      </div>
+    </div>
+
+    <div class="mb-3" *ngIf="!user">
+      <label for="password" class="form-label">Contraseña</label>
+      <input
+        id="password"
+        type="password"
+        class="form-control"
+        formControlName="password"
+        [ngClass]="{ 'is-invalid': isInvalid('password') }"
+      />
+      <div *ngIf="isInvalid('password')" class="invalid-feedback">
+        {{ getError("password") }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="roles" class="form-label">Roles</label>
+      <ng-select
+        [items]="rolesList"
+        bindLabel="name"
+        bindValue="value"
+        placeholder="Seleccione roles"
+        formControlName="roles"
+        [ngClass]="{ 'is-invalid': isInvalid('roles') }"
+      >
+      </ng-select>
+      <div *ngIf="isInvalid('roles')" class="invalid-feedback">
+        {{ getError("roles") }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="fullName" class="form-label">Nombre Completo</label>
+      <input
+        id="fullName"
+        type="text"
+        class="form-control"
+        formControlName="fullName"
+      />
+    </div>
+
+    <div class="accordion" id="equipmentAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingEquipment">
+          <button
+            class="accordion-button"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseEquipment"
+            aria-expanded="true"
+            aria-controls="collapseEquipment"
+          >
+            Seleccionar Equipos
+          </button>
+        </h2>
+        <div
+          id="collapseEquipment"
+          class="accordion-collapse collapse"
+          aria-labelledby="headingEquipment"
+          data-bs-parent="#equipmentAccordion"
+        >
+          <div class="accordion-body">
+            <div class="form-control overflow-auto" style="max-height: 200px">
+              <div class="form-check" *ngFor="let equipment of equipments">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="equipment-{{ equipment._id }}"
+                  [checked]="isSelected(equipment)"
+                  (change)="toggleSelection(equipment)"
+                />
+                <label
+                  class="form-check-label"
+                  for="equipment-{{ equipment._id }}"
+                >
+                  {{ equipment.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="status" class="form-label">Estado</label>
+      <select id="status" class="form-control" formControlName="status">
+        <option [value]="true">Activo</option>
+        <option [value]="false">Inactivo</option>
+      </select>
+    </div>
+
+    <div class="text-end">
+      <button type="button" class="btn btn-secondary me-2" (click)="close()">
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="userForm.invalid"
+      >
+        {{ user ? "Guardar Cambios" : "Crear Usuario" }}
+      </button>
+    </div>
+  </form>
+</div>

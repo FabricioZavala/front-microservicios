@@ -1,7 +1,8 @@
-import { Component, ViewEncapsulation, HostListener } from '@angular/core';
+import { Component, ViewEncapsulation, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Menu, NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
+import { AuthGatewayService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,11 +10,9 @@ import { LayoutService } from '../../services/layout.service';
   styleUrls: ['./sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   public iconSidebar: any;
   public menuItems: Menu[] | any;
-
-  // For Horizontal Menu
   public margin: any = 0;
   public width: any = window.innerWidth;
   public leftArrowNone: boolean = true;
@@ -22,38 +21,20 @@ export class SidebarComponent {
   constructor(
     private router: Router,
     public navServices: NavService,
-    public layout: LayoutService
-  ) {
+    public layout: LayoutService,
+    private authService: AuthGatewayService
+  ) {}
+
+  ngOnInit() {
+    const userRoles = this.authService.getCurrentUserRoles();
+
+    this.navServices.updateMenuItemsByRoles(userRoles);
+
     this.navServices.items.subscribe((menuItems) => {
       this.menuItems = menuItems;
       this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
-          menuItems.filter((items) => {
-            if (items.path === event.url) {
-              this.setNavActive(items);
-              return true; // Agregar esta línea
-            }
-            if (!items.children) {
-              return false;
-            }
-            return items.children.filter((subItems) => {
-              // Agregar un retorno aquí
-              if (subItems.path === event.url) {
-                this.setNavActive(subItems);
-                return true; // Agregar esta línea
-              }
-              if (!subItems.children) {
-                return false;
-              }
-              return subItems.children.filter((subSubItems) => {
-                if (subSubItems.path === event.url) {
-                  this.setNavActive(subSubItems);
-                  return true; // Agregar esta línea
-                }
-                return false;
-              });
-            });
-          });
+          this.updateActiveMenu(event.url, menuItems);
         }
       });
     });
@@ -68,47 +49,28 @@ export class SidebarComponent {
     this.navServices.collapseSidebar = !this.navServices.collapseSidebar;
   }
 
-  // Active Nave state
-  setNavActive(item: any) {
-    this.menuItems.filter((menuItem: any) => {
-      if (menuItem !== item) {
-        menuItem.active = false;
+  private updateActiveMenu(url: string, menuItems: Menu[]) {
+    menuItems.forEach((item) => {
+      if (item.path === url) {
+        this.setNavActive(item);
       }
-      if (menuItem.children && menuItem.children.includes(item)) {
-        menuItem.active = true;
-      }
-      if (menuItem.children) {
-        menuItem.children.filter((submenuItems: any) => {
-          if (submenuItems.children && submenuItems.children.includes(item)) {
-            menuItem.active = true;
-            submenuItems.active = true;
+      if (item.children) {
+        item.children.forEach((subItem) => {
+          if (subItem.path === url) {
+            this.setNavActive(subItem);
+          }
+          if (subItem.children) {
+            subItem.children.forEach((subSubItem) => {
+              if (subSubItem.path === url) {
+                this.setNavActive(subSubItem);
+              }
+            });
           }
         });
       }
     });
   }
 
-  // Click Toggle menu
-  toggletNavActive(item: any) {
-    if (!item.active) {
-      for (const a of this.menuItems) {
-        if (this.menuItems.includes(item)) {
-          a.active = false;
-        }
-        if (!a.children) {
-          continue;
-        }
-        for (const b of a.children) {
-          if (a.children.includes(item)) {
-            b.active = false;
-          }
-        }
-      }
-    }
-    item.active = !item.active;
-  }
-
-  // For Horizontal Menu
   scrollToLeft() {
     if (this.margin >= -this.width) {
       this.margin = 0;
@@ -119,7 +81,7 @@ export class SidebarComponent {
       this.rightArrowNone = false;
     }
   }
-
+  
   scrollToRight() {
     if (this.margin <= -3051) {
       this.margin = -3464;
@@ -129,5 +91,21 @@ export class SidebarComponent {
       this.margin += -this.width;
       this.leftArrowNone = false;
     }
+  }
+  
+
+  setNavActive(item: Menu) {
+    this.menuItems.forEach((menuItem: Menu) => {
+      menuItem.active = menuItem === item;
+      if (menuItem.children) {
+        menuItem.children.forEach((subItem) => {
+          subItem.active = subItem === item;
+        });
+      }
+    });
+  }
+
+  toggletNavActive(item: Menu) {
+    item.active = !item.active;
   }
 }

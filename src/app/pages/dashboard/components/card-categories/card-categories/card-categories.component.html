@@ -1,0 +1,14 @@
+<div class="card ">
+  <div class="card-header">
+    <h5>Categorías por día</h5>
+    <h5>Total hoy: {{ categoriesToday }}</h5>
+  </div>
+  <div class="card-body">
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [dataLabels]="chartOptions.dataLabels"
+    ></apx-chart>
+  </div>
+</div>

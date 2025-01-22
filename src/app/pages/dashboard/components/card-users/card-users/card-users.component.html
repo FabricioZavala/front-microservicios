@@ -1,0 +1,20 @@
+<div class="card h-100">
+  <div class="card-header">
+    <h5>Usuarios</h5>
+  </div>
+  <div class="card-body d-flex align-items-center">
+    <div id="chart" class="flex-grow-1">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [labels]="chartOptions.labels"
+        [responsive]="chartOptions.responsive"
+      ></apx-chart>
+    </div>
+    <div class="ms-3 text-end">
+      <p>Total Usuarios: {{ totalUsers }}</p>
+      <p>Usuarios Activos: {{ activeUsers }}</p>
+      <p>Usuarios Inactivos: {{ inactiveUsers }}</p>
+    </div>
+  </div>
+</div>

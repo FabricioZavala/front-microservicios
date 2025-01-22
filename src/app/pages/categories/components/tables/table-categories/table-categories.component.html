@@ -1,35 +1,100 @@
-<div *ngIf="loading" class="text-center">
-    <p>Loading categories...</p>
+<div class="container-fluid basic_table">
+  <div class="row">
+    <div class="card">
+      <div class="card-header">
+        <div class="text-end">
+          <button
+            class="btn btn-sm btn-refresh me-3"
+            [disabled]="isLoading"
+            ngbTooltip="Recargar Tabla"
+            tooltipClass="custom-tooltip"
+            (click)="reloadTable()"
+          >
+            <i class="fas fa-sync-alt"></i>
+          </button>
+
+          <button class="btn btn-sm btn-head me-3" (click)="downloadAsExcel()">
+            <i class="far fa-file-excel"></i>
+          </button>
+
+          <button class="btn btn-sm btn-head me-3" (click)="downloadAsPDF()">
+            <i class="fa-solid fa-file-pdf"></i>
+          </button>
+          <button
+            class="btn btn-sm btn-head btn-head-table"
+            [disabled]="isLoading"
+            (click)="openCreateEditModal()"
+          >
+            <i class="fa-solid fa-circle-plus"></i> Nueva Categoría
+          </button>
+        </div>
+      </div>
+      <div class="card-body custom-datatable noscroll">
+        <div class="table-responsive signal-table custom-datatable">
+          <table class="table table-hover table-responsive">
+            <thead>
+              <tr>
+                <th>Acciones</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Fecha de Creación</th>
+              </tr>
+            </thead>
+            @if (!isLoading && categories.length > 0) {
+            <tbody>
+              @for (category of categories; track $index) {
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="btn-group mb-2">
+                      <button
+                        class="btn btn-sm mt-2 btn-light"
+                        ngbTooltip="Ver detalles"
+                        tooltipClass="custom-tooltip"
+                        (click)="openViewModal(category)"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button
+                        class="btn btn-sm btn-danger mt-2"
+                        ngbTooltip="Eliminar categoría"
+                        tooltipClass="custom-tooltip"
+                        (click)="deleteCategory(category._id)"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button
+                        class="btn btn-sm btn-head btn-mode mt-2"
+                        ngbTooltip="Editar categoría"
+                        tooltipClass="custom-tooltip"
+                        (click)="openCreateEditModal(category)"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ category.name }}</td>
+                <td ellipsisOverflow>{{ category.description || "Sin descripción" }}</td>
+                <td>
+                  {{ category.status === "active" ? "Activo" : "Inactivo" }}
+                </td>
+                <td>{{ category.createdAt | date : "short" }}</td>
+              </tr>
+            }
+            </tbody>
+            }
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <shared-custom-pagination
+          [collectionSize]="collectionSize"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onLimitChange($event)"
+        ></shared-custom-pagination>
+      </div>
+    </div>
   </div>
-  
-  <div *ngIf="!loading && categories.length > 0">
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let category of categories">
-          <td>{{ category._id }}</td>
-          <td>{{ category.name }}</td>
-          <td>{{ category.description || 'N/A' }}</td>
-          <td>{{ category.status }}</td>
-          <td>
-            <button class="btn btn-danger btn-sm" (click)="deleteCategory(category._id)">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  <div *ngIf="!loading && categories.length === 0" class="text-center">
-    <p>No categories found.</p>
-  </div>
-  
+</div>
